@@ -6,7 +6,7 @@ Serves the OBS browser-source overlay (overlay.html) and the control panel
 
 Run:  double-click start.bat   (or:  python server.py)
 Then: control panel  -> http://127.0.0.1:8765/
-      OBS overlays   -> http://127.0.0.1:8765/overlay.html?scene=2&layer=fg  (see README.txt)
+      OBS overlays   -> http://127.0.0.1:8765/overlay.html?scene=2&layer=fg  (see README.md)
 
 Only Python's standard library is used. Nothing is reachable from other
 computers: the server listens on 127.0.0.1 only.
