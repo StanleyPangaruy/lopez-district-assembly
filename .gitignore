@@ -1,0 +1,9 @@
+# runtime state (each PC keeps its own "who is on air")
+state.json
+*.tmp
+
+# large / duplicate source files - not needed to run the overlays
+*.zip
+BARANGAY LOGOS WITHOUT YEAR INDICATED/
+logos/_originals/
+*.pub

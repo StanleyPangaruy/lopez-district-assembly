@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>District Assembly Overlay</title>
+<!--
+  OBS Browser Source, 1920 x 1080.
+  ?scene=title             full-screen title card (one layer)
+  ?scene=2|3|4&layer=bg    backdrop, goes UNDER camera/slides
+  ?scene=2|3|4&layer=fg    frames + names, goes OVER camera/slides
+  2 = Presenter + Presentation, 3 = Presenter Only, 4 = Presentation Only
+-->
+<style>
+@font-face{font-family:"DA Poppins";src:url("fonts/Poppins-Medium.ttf");font-weight:500}
+@font-face{font-family:"DA Poppins";src:url("fonts/Poppins-Bold.ttf");font-weight:700}
+@font-face{font-family:"DA Inter";src:url("fonts/Inter-Black.otf");font-weight:900}
+:root{
+  --red:#e8262c;--red-dark:#b0141a;--ink:#141416;--grey:#6e6e6e;
+  --sans:"DA Poppins","Poppins","Segoe UI",Arial,sans-serif;
+  --heavy:"DA Inter","Inter","Arial Black",sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:transparent}
+body{position:relative;font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased}
+body>*{position:absolute}
+.fit{max-width:100%;overflow:hidden;white-space:nowrap}
+
+/* ---------- backdrop ---------- */
+.bg{left:0;top:0;width:1920px;height:1080px;background:linear-gradient(#f4f3f0,#e2e0dc)}
+.stripes{left:0;top:0;width:1920px;height:1080px;
+  background:repeating-linear-gradient(112.8deg,rgba(0,0,0,.035) 0 2px,transparent 2px 42px)}
+.w1,.w2{left:0;top:0;width:1920px;height:1080px}
+.w1{background:rgba(232,38,44,.16);clip-path:polygon(1250px 1080px,1920px 820px,1920px 1080px)}
+.w2{background:rgba(232,38,44,.27);clip-path:polygon(1560px 1080px,1920px 930px,1920px 1080px)}
+.hole{background:#1e1e20;box-shadow:0 12px 50px rgba(0,0,0,.36)}
+
+/* ---------- header ---------- */
+.band,.band-dark{left:0;top:22px;width:1920px;height:82px;background:var(--red)}
+.band-dark{background:var(--red-dark);clip-path:polygon(1460px 0,1920px 0,1920px 82px,1420px 82px)}
+.h-line{left:304px;color:#fff;font-weight:700;font-size:27px;letter-spacing:2px;line-height:33px;white-space:nowrap}
+.event{right:40px;top:22px;height:82px;display:flex;align-items:center;color:#fff;
+  font-family:var(--heavy);font-weight:900;font-size:30px;letter-spacing:4px;white-space:nowrap}
+
+/* ---------- round logos ---------- */
+.logo{border-radius:50%;background:#fff;box-shadow:0 10px 24px rgba(0,0,0,.28)}
+.logo .inner{position:absolute;border-radius:50%;background:#ececec;overflow:hidden;display:flex;
+  align-items:center;justify-content:center;text-align:center;color:#8c8c8c;font-weight:700;line-height:1.15}
+.logo .inner::before{content:"";position:absolute;left:10px;top:10px;right:10px;bottom:10px;border:3px solid #bebebe;border-radius:50%}
+.logo .ph{position:relative;white-space:pre-line}
+.logo img{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;display:none;background:#fff}
+.logo.has-img .inner{background:#fff}
+.logo.has-img .inner::before,.logo.has-img .ph{display:none}
+.logo.has-img img{display:block}
+
+/* ---------- frames ---------- */
+.frame{border:6px solid #fff}
+.tab{background:var(--red)}
+
+/* ---------- lower third ---------- */
+.lt{left:40px;top:962px;width:1840px;height:90px;display:flex;filter:drop-shadow(0 8px 10px rgba(0,0,0,.22))}
+.lt-tag{flex:none;height:90px;padding:0 66px 0 22px;background:var(--red);color:#fff;font-weight:700;font-size:22px;
+  letter-spacing:3px;display:flex;align-items:center;white-space:nowrap;clip-path:polygon(0 0,100% 0,calc(100% - 22px) 100%,0 100%)}
+.lt-plate{flex:1;min-width:0;margin-left:-18px;background:#fff;display:flex;align-items:center;padding:0 40px 0 52px;
+  clip-path:polygon(22px 0,100% 0,100% 100%,0 100%)}
+.lt-left{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
+.lt-small{color:var(--red);font-weight:700;font-size:22px;letter-spacing:4px;line-height:24px;margin-top:2px}
+.lt-name{font-family:var(--heavy);font-weight:900;font-size:50px;line-height:1.02}
+.lt-div{flex:none;width:3px;height:54px;background:#d2d2d2;margin:0 30px}
+.lt-right{flex:none;max-width:620px;text-align:right}
+.lt-person{font-weight:700;font-size:34px;line-height:38px}
+.lt-role{font-weight:500;font-size:21px;color:var(--grey);line-height:26px}
+
+/* ---------- scene 3: event card ---------- */
+.card{background:#fff;border-top:12px solid var(--red);padding:42px 30px 30px;box-shadow:0 10px 40px rgba(0,0,0,.33)}
+.c-muni{color:var(--red);font-weight:700;font-size:17px;letter-spacing:2px}
+.c-title{margin-top:26px}
+.c-word{font-family:var(--heavy);font-weight:900;font-size:64px;line-height:1.1}
+.c-rule{width:60px;height:6px;background:var(--red);margin:22px 0 24px}
+.c-dist{font-weight:700;font-size:32px;line-height:1.2}
+.c-note{font-weight:500;font-size:20px;line-height:1.4;color:var(--grey);margin-top:14px}
+
+/* ---------- scene 4: side column ---------- */
+.col{display:flex;flex-direction:column;align-items:center;text-align:center}
+.pill{background:var(--red);color:#fff;font-weight:700;font-size:17px;letter-spacing:2px;padding:4px 12px}
+.c4-small{margin-top:24px;color:var(--red);font-weight:700;font-size:20px;letter-spacing:3px}
+.c4-name{margin-top:8px;width:100%;font-family:var(--heavy);font-weight:900;font-size:34px;line-height:1.15;overflow:hidden}
+.c4-rule{width:60px;height:5px;background:var(--red);margin:18px 0 12px}
+.c4-person{font-weight:700;font-size:22px;line-height:1.3}
+.c4-role{font-weight:500;font-size:17px;color:var(--grey);margin-top:4px}
+
+/* ---------- title card ---------- */
+.panel{left:0;top:0;width:1920px;height:1080px;
+  background:repeating-linear-gradient(112.8deg,rgba(255,255,255,.07) 0 2px,transparent 2px 31px),linear-gradient(var(--red),var(--red-dark));
+  clip-path:polygon(1290px 0,1920px 0,1920px 1080px,1050px 1080px)}
+.plate{left:430px;top:470px;width:1030px;height:330px;background:#fff;border-bottom:12px solid var(--red);box-shadow:0 14px 48px rgba(0,0,0,.33)}
+.ribbon{left:620px;top:406px;height:64px;padding:0 56px 0 30px;background:var(--ink);color:#fff;font-weight:700;font-size:30px;
+  letter-spacing:4px;display:flex;align-items:center;white-space:nowrap;clip-path:polygon(0 0,100% 0,calc(100% - 26px) 100%,0 100%)}
+.t-text{left:630px;top:470px;width:780px;height:318px;display:flex;flex-direction:column;justify-content:center}
+.t-small{color:var(--red);font-weight:700;font-size:40px;letter-spacing:6px;line-height:1.1}
+.t-name{font-family:var(--heavy);font-weight:900;font-size:104px;line-height:1.08;margin:4px 0 8px}
+.t-person{font-weight:700;font-size:38px;line-height:1.2}
+.t-role{font-weight:500;font-size:26px;color:var(--grey)}
+
+/* ---------- animation ---------- */
+.swap{transition:opacity .35s ease,transform .55s var(--ease)}
+.swap.out{opacity:0;transform:translateY(22px)}
+.logo.swap.out{transform:scale(.86)}
+.lt{transition:opacity .4s ease,transform .6s var(--ease)}
+.lt.out,.lt.hide{opacity:0;transform:translateX(-90px)}
+</style>
+</head>
+<body>
+<script>
+"use strict";
+const Q = new URLSearchParams(location.search);
+const SCENE = (Q.get("scene") || "2").toLowerCase();
+const LAYER = (Q.get("layer") || "fg").toLowerCase();
+
+// Source boxes (x, y, w, h) - must match the OBS Edit Transform values.
+const LAYOUT = {
+  "2": {slide: [40, 135, 1440, 810], cam: [1520, 465, 360, 480]},
+  "3": {cam: [40, 135, 1440, 810]},
+  "4": {slide: [40, 135, 1600, 900]},
+};
+
+let state = {
+  version: -1, show_lt: true,
+  speaker: {kind: "barangay", district: "Poblacion", name: "Gomez", person: "Kap. Juan Dela Cruz", role: "Punong Barangay", logo: ""},
+  settings: {event_title: "DISTRICT ASSEMBLY", header1: "PROVINCE OF QUEZON", header2: "THE MUNICIPALITY OF LOPEZ",
+             card_note: "Presentation of barangay and sectoral reports"},
+};
+
+/* ---------------- markup ---------------- */
+const box = ([x, y, w, h]) => `left:${x}px;top:${y}px;width:${w}px;height:${h}px`;
+
+function logoHTML(id, d, ring, x, y, phSize, swap) {
+  return `<div class="logo${swap ? " swap" : ""}" id="${id}" style="${box([x, y, d, d])}">
+    <div class="inner" style="left:${ring}px;top:${ring}px;right:${ring}px;bottom:${ring}px;font-size:${phSize}px">
+      <span class="ph"></span><img alt=""></div></div>`;
+}
+
+function headerHTML() {
+  return `<div class="band"></div><div class="band-dark"></div>
+    ${logoHTML("seal1", 112, 6, 40, 7, 12)}${logoHTML("seal2", 112, 6, 166, 7, 12)}
+    <div class="h-line" id="h1" style="top:31px"></div>
+    <div class="h-line" id="h2" style="top:64px"></div>
+    <div class="event" id="event"></div>`;
+}
+
+function backdropHTML() {
+  return `<div class="bg"></div><div class="stripes"></div><div class="w1"></div><div class="w2"></div>`;
+}
+
+const ltHTML = () => `<div class="lt" id="lt">
+  <div class="lt-tag" id="lt-district"></div>
+  <div class="lt-plate">
+    <div class="lt-left"><div class="lt-small" id="lt-small"></div><div class="lt-name fit" id="lt-name"></div></div>
+    <div class="lt-div"></div>
+    <div class="lt-right"><div class="lt-person fit" id="lt-person"></div><div class="lt-role fit" id="lt-role"></div></div>
+  </div></div>`;
+
+const cardHTML = () => `<div class="card" style="${box([1520, 465, 360, 480])}">
+  <div class="c-muni fit" id="c-muni"></div><div class="c-title" id="c-title"></div>
+  <div class="c-rule"></div><div class="c-dist fit" id="c-dist"></div><div class="c-note" id="c-note"></div></div>`;
+
+const colHTML = () => `<div class="col swap" id="col" style="left:1671px;top:362px;width:224px">
+  <div class="pill fit" id="c4-district"></div><div class="c4-small fit" id="c4-small"></div>
+  <div class="c4-name" id="c4-name"></div><div class="c4-rule"></div>
+  <div class="c4-person" id="c4-person"></div><div class="c4-role" id="c4-role"></div></div>`;
+
+function build() {
+  let h = "";
+  if (SCENE === "title") {
+    h += `<div class="bg"></div><div class="stripes"></div><div class="panel"></div>` + headerHTML();
+    h += `<div class="plate"></div>` + logoHTML("logo", 430, 12, 150, 414, 48, true);
+    h += `<div class="ribbon swap" id="t-district"></div>
+      <div class="t-text swap"><div class="t-small" id="t-small"></div><div class="t-name fit" id="t-name"></div>
+      <div class="t-person fit" id="t-person"></div><div class="t-role fit" id="t-role"></div></div>`;
+  } else {
+    const lay = LAYOUT[SCENE] || LAYOUT["2"];
+    if (LAYER === "bg") {
+      h += backdropHTML();
+      for (const k of ["slide", "cam"]) if (lay[k]) h += `<div class="hole" style="${box(lay[k])}"></div>`;
+      h += headerHTML();
+    } else {
+      for (const k of ["slide", "cam"]) if (lay[k]) {
+        const [x, y, w, hh] = lay[k];
+        h += `<div class="frame" style="${box([x - 6, y - 6, w + 12, hh + 12])}"></div>`;
+      }
+      if (SCENE === "2") {
+        const [x, y] = lay.cam;
+        h += `<div class="tab" style="${box([x - 6, y - 14, 96, 8])}"></div>`;
+        h += logoHTML("logo", 250, 8, 1575, 169, 28, true) + ltHTML();
+      } else if (SCENE === "3") {
+        h += logoHTML("logo", 250, 8, 1575, 175, 28, true) + cardHTML() + ltHTML();
+      } else if (SCENE === "4") {
+        h += logoHTML("logo", 190, 8, 1688, 140, 22, true) + colHTML();
+      }
+    }
+  }
+  document.body.innerHTML = h;
+}
+
+/* ---------------- helpers ---------------- */
+const $ = id => document.getElementById(id);
+function T(id, txt) { const e = $(id); if (e) e.textContent = txt || ""; return e; }
+
+function fitWidth(e, max, min) {
+  if (!e) return;
+  let s = max; e.style.fontSize = s + "px";
+  while (e.scrollWidth > e.clientWidth + 1 && s > min) { s -= 1; e.style.fontSize = s + "px"; }
+}
+function fitBox(e, max, min, maxH) {
+  if (!e) return;
+  let s = max; e.style.fontSize = s + "px";
+  while ((e.scrollHeight > maxH || e.scrollWidth > e.clientWidth + 1) && s > min) { s -= 1; e.style.fontSize = s + "px"; }
+}
+
+function logoUrl(p) {
+  p = (p || "").trim().replace(/\\/g, "/");
+  if (!p) return "";
+  if (/^(https?:|data:)/i.test(p)) return p;
+  if (!p.includes("/")) p = "logos/" + p;          // "gomez.png" -> logos/gomez.png
+  return encodeURI(p);
+}
+function setLogo(id, src, ph) {
+  const L = $(id); if (!L) return;
+  L.querySelector(".ph").textContent = ph;
+  const img = L.querySelector("img");
+  if (!src) { L.classList.remove("has-img"); img.removeAttribute("src"); return; }
+  img.onload = () => L.classList.add("has-img");
+  img.onerror = () => L.classList.remove("has-img");
+  if (img.getAttribute("src") !== src) img.src = src;
+}
+
+const isBrgy = sp => (sp.kind || "barangay").toLowerCase() === "barangay";
+const muni = st => ((st.settings.header2 || "").replace(/^THE\s+/i, "") || "MUNICIPALITY").toUpperCase();
+const districtTag = (sp, st) => sp.district ? "DISTRICT " + sp.district.toUpperCase() : muni(st);
+function labels(sp) {
+  const b = isBrgy(sp);
+  return {small: b ? "BARANGAY" : "SECTORAL GROUP",
+          role: sp.role || (b ? "Punong Barangay" : "Sectoral President"),
+          ph: b ? "BARANGAY\nLOGO" : "SECTOR\nLOGO"};
+}
+
+/* ---------------- render ---------------- */
+function applySettings(st) {
+  const s = st.settings;
+  T("h1", s.header1); T("h2", s.header2); T("event", s.event_title);
+  setLogo("seal1", "logos/province_seal.png", "PROVINCE\nSEAL");
+  setLogo("seal2", "logos/municipal_seal.png", "MUNICIPAL\nSEAL");
+  if ($("c-title")) {
+    T("c-muni", muni(st)); fitWidth($("c-muni"), 17, 11);
+    $("c-title").innerHTML = "";
+    for (const w of (s.event_title || "").split(/\s+/).filter(Boolean)) {
+      const d = document.createElement("div");
+      d.className = "c-word fit"; d.textContent = w;
+      $("c-title").appendChild(d); fitWidth(d, 64, 28);
+    }
+    T("c-note", s.card_note);
+  }
+}
+
+function applySpeaker(st) {
+  const sp = st.speaker || {}, lb = labels(sp);
+  const NAME = (sp.name || "").toUpperCase(), tag = districtTag(sp, st);
+  setLogo("logo", logoUrl(sp.logo), lb.ph);
+
+  // lower third (scenes 2, 3)
+  T("lt-district", tag); T("lt-small", lb.small);
+  fitWidth(T("lt-person", sp.person), 34, 22);
+  fitWidth(T("lt-role", lb.role), 21, 14);
+  fitWidth(T("lt-name", NAME), 50, 24);
+
+  // title card
+  T("t-district", tag); T("t-small", lb.small);
+  fitWidth(T("t-name", NAME), 104, 40);
+  fitWidth(T("t-person", sp.person), 38, 22);
+  fitWidth(T("t-role", lb.role), 26, 16);
+
+  // scene 3 card
+  fitWidth(T("c-dist", sp.district ? "District " + sp.district : "Sectoral Groups"), 32, 18);
+
+  // scene 4 column
+  fitWidth(T("c4-district", tag), 17, 11);
+  fitWidth(T("c4-small", lb.small), 20, 12);
+  fitBox(T("c4-name", NAME), 34, 18, 170);
+  T("c4-person", sp.person); T("c4-role", lb.role);
+}
+
+let lastSpeaker = null, lastSettings = null, first = true, synced = false;
+function onState(st) {
+  const spKey = JSON.stringify(st.speaker), setKey = JSON.stringify(st.settings);
+  if (setKey !== lastSettings) { lastSettings = setKey; applySettings(st); if (!first && spKey === lastSpeaker) applySpeaker(st); }
+  if (spKey !== lastSpeaker) {
+    lastSpeaker = spKey;
+    const parts = [...document.querySelectorAll(".swap, .lt")];
+    if (first) applySpeaker(st);
+    else {
+      parts.forEach(e => e.classList.add("out"));
+      setTimeout(() => { applySpeaker(st); requestAnimationFrame(() => parts.forEach(e => e.classList.remove("out"))); }, 400);
+    }
+  }
+  const lt = $("lt"); if (lt) lt.classList.toggle("hide", st.show_lt === false);
+  first = false;
+}
+
+async function poll() {
+  try {
+    const r = await fetch("/api/state", {cache: "no-store"});
+    if (r.ok) {
+      const st = await r.json();
+      if (!synced) { synced = true; first = true; lastSpeaker = lastSettings = null; }  // no animation on first load
+      if (st.version !== state.version) { state = st; onState(st); }
+    }
+  } catch (e) { /* server not running: keep showing the last state */ }
+  setTimeout(poll, 300);
+}
+
+build();
+Promise.all([
+  document.fonts.load('500 20px "DA Poppins"'), document.fonts.load('700 20px "DA Poppins"'),
+  document.fonts.load('900 20px "DA Inter"'),
+].map(p => p.catch(() => null))).then(() => { onState(state); poll(); });
+</script>
+</body>
+</html>

@@ -1,0 +1,3 @@
+Put logo PNGs here.
+province_seal.png and municipal_seal.png = header seals.
+Other files = barangay/sector logos named in roster.csv (logo column).

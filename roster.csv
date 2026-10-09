@@ -1,0 +1,97 @@
+﻿order,district,kind,name,person,role,logo
+1,Poblacion,barangay,Burgos,,Punong Barangay,burgos.png
+2,Poblacion,barangay,Bocboc,,Punong Barangay,bocboc.png
+3,Poblacion,barangay,Gomez,,Punong Barangay,gomez.png
+4,Poblacion,barangay,Danlagan,,Punong Barangay,danlagan.png
+5,Poblacion,barangay,Talolong,,Punong Barangay,talolong.png
+6,Poblacion,barangay,Rizal Poblacion,,Punong Barangay,rizal-poblacion.png
+7,Poblacion,barangay,Magsaysay,,Punong Barangay,magsaysay.png
+8,Mahogany,barangay,Cawayan,,Punong Barangay,cawayan.png
+9,Mahogany,barangay,Del Rosario,,Punong Barangay,del-rosario.png
+10,Mahogany,barangay,Magallanes,,Punong Barangay,magallanes.png
+11,Mahogany,barangay,Rizal Rural,,Punong Barangay,rizal-rural.png
+12,Mahogany,barangay,San Andres,,Punong Barangay,san-andres.png
+13,Mahogany,barangay,Vegaflor,,Punong Barangay,vegaflor.png
+14,Mahogany,barangay,Vergaña,,Punong Barangay,vergana.png
+15,Mahogany,barangay,Veronica,,Punong Barangay,veronica.png
+16,Mahogany,barangay,Villa Aurora,,Punong Barangay,villa-aurora.png
+17,Mahogany,barangay,Villa Espina,,Punong Barangay,villa-espina.png
+18,Mahogany,barangay,Villageda,,Punong Barangay,villageda.png
+19,Ilang-Ilang,barangay,Bacungan,,Punong Barangay,bacungan.png
+20,Ilang-Ilang,barangay,Banabahin Ibaba,,Punong Barangay,banabahin-ibaba.png
+21,Ilang-Ilang,barangay,Banabahin Ilaya,,Punong Barangay,banabahin-ilaya.png
+22,Ilang-Ilang,barangay,Buenavista,,Punong Barangay,buenavista.png
+23,Ilang-Ilang,barangay,Monteclaro,,Punong Barangay,monteclaro.png
+24,Ilang-Ilang,barangay,Pamampangin,,Punong Barangay,pamampangin.png
+25,Ilang-Ilang,barangay,Pisipis,,Punong Barangay,pisipis.png
+26,Ilang-Ilang,barangay,Tan-ag Ibaba,,Punong Barangay,tan-ag-ibaba.png
+27,Ilang-Ilang,barangay,Tan-ag Ilaya,,Punong Barangay,tan-ag-ilaya.png
+28,Ilang-Ilang,barangay,Tocalin,,Punong Barangay,tocalin.png
+29,Ilang-Ilang,barangay,Lalaguna,,Punong Barangay,lalaguna.png
+30,Molave,barangay,Bebito,,Punong Barangay,bebito.png
+31,Molave,barangay,Canda Ibaba,,Punong Barangay,canda-ibaba.png
+32,Molave,barangay,Canda Ilaya,,Punong Barangay,canda-ilaya.png
+33,Molave,barangay,Dela Paz,,Punong Barangay,dela-paz.png
+34,Molave,barangay,Esperanza Ibaba,,Punong Barangay,esperanza-ibaba.png
+35,Molave,barangay,Esperanza Ilaya,,Punong Barangay,esperanza-ilaya.png
+36,Molave,barangay,Maguilayan,,Punong Barangay,maguilayan.png
+37,Molave,barangay,Mahayod-Hayod,,Punong Barangay,mahayod-hayod.png
+38,Molave,barangay,San Roque,,Punong Barangay,san-roque.png
+39,Rosal,barangay,Villa Hermosa,,Punong Barangay,villa-hermosa.png
+40,Rosal,barangay,Cogorin Ibaba,,Punong Barangay,cogorin-ibaba.png
+41,Rosal,barangay,Cogorin Ilaya,,Punong Barangay,cogorin-ilaya.png
+42,Rosal,barangay,Rosario,,Punong Barangay,rosario.png
+43,Rosal,barangay,Silang,,Punong Barangay,silang.png
+44,Rosal,barangay,San Antonio,,Punong Barangay,san-antonio.png
+45,Rosal,barangay,San Francisco A,,Punong Barangay,san-francisco-a.png
+46,Rosal,barangay,San Francisco B,,Punong Barangay,san-francisco-b.png
+47,Rosal,barangay,San Miguel Dao,,Punong Barangay,san-miguel-dao.png
+48,Rosal,barangay,Sumalang,,Punong Barangay,sumalang.png
+49,Sampaguita,barangay,Calantipayan,,Punong Barangay,calantipayan.png
+50,Sampaguita,barangay,Del Pilar,,Punong Barangay,del-pilar.png
+51,Sampaguita,barangay,Guihay,,Punong Barangay,guihay.png
+52,Sampaguita,barangay,Jongo,,Punong Barangay,jongo.png
+53,Sampaguita,barangay,Mal-ay,,Punong Barangay,mal-ay.png
+54,Sampaguita,barangay,Manguisian,,Punong Barangay,manguisian.png
+55,Sampaguita,barangay,Pansol,,Punong Barangay,pansol.png
+56,Sampaguita,barangay,Sta. Teresa,,Punong Barangay,sta-teresa.png
+57,Sampaguita,barangay,Sugod,,Punong Barangay,sugod.png
+58,Sampaguita,barangay,San Jose,,Punong Barangay,san-jose.png
+59,Sampaguita,barangay,Sta. Lucia,,Punong Barangay,sta-lucia.png
+60,Daisy,barangay,Binahian A,,Punong Barangay,binahian-a.png
+61,Daisy,barangay,Binahian B,,Punong Barangay,binahian-b.png
+62,Daisy,barangay,Binahian C,,Punong Barangay,binahian-c.png
+63,Daisy,barangay,Ilayang Ilog A,,Punong Barangay,ilayang-ilog-a.png
+64,Daisy,barangay,Ilayang Ilog B,,Punong Barangay,ilayang-ilog-b.png
+65,Daisy,barangay,Mabini,,Punong Barangay,mabini.png
+66,Daisy,barangay,San Pedro,,Punong Barangay,san-pedro.png
+67,Daisy,barangay,San Rafael,,Punong Barangay,san-rafael.png
+68,Daisy,barangay,Sta. Elena,,Punong Barangay,sta-elena.png
+69,Daisy,barangay,Villanacaob,,Punong Barangay,villanacaob.png
+70,Daisy,barangay,San Isidro,,Punong Barangay,san-isidro.png
+71,Champaca,barangay,Bayabas,,Punong Barangay,bayabas.png
+72,Champaca,barangay,Buyacanin,,Punong Barangay,buyacanin.png
+73,Champaca,barangay,Inalusan,,Punong Barangay,inalusan.png
+74,Champaca,barangay,Mabanban,,Punong Barangay,mabanban.png
+75,Champaca,barangay,Peñafrancia,,Punong Barangay,penafrancia.png
+76,Champaca,barangay,Cagacag,,Punong Barangay,cagacag.png
+77,Champaca,barangay,Sta. Rosa,,Punong Barangay,sta-rosa.png
+78,Champaca,barangay,Cawayanin,,Punong Barangay,cawayanin.png
+79,Champaca,barangay,Guinuangan,,Punong Barangay,guinuangan.png
+80,Champaca,barangay,Sto. Niño Ibaba,,Punong Barangay,sto-nino-ibaba.png
+81,Champaca,barangay,Sto. Niño Ilaya,,Punong Barangay,sto-nino-ilaya.png
+82,Champaca,barangay,Villa Monte,,Punong Barangay,villa-monte.png
+83,Champaca,barangay,Samat,,Punong Barangay,samat.png
+84,Champaca,barangay,Sta. Catalina,,Punong Barangay,sta-catalina.png
+85,Magnolia,barangay,Bagacay,,Punong Barangay,bagacay.png
+86,Magnolia,barangay,Bigajo,,Punong Barangay,bigajo.png
+87,Magnolia,barangay,Concepcion,,Punong Barangay,concepcion.png
+88,Magnolia,barangay,Guites,,Punong Barangay,guites.png
+89,Magnolia,barangay,Lourdes,,Punong Barangay,lourdes.png
+90,Magnolia,barangay,Mandoog,,Punong Barangay,mandoog.png
+91,Magnolia,barangay,Matinik,,Punong Barangay,matinik.png
+92,Magnolia,barangay,Hondagua,,Punong Barangay,hondagua.png
+93,Magnolia,barangay,Sta. Jacobe,,Punong Barangay,sta-jacobe.png
+94,Magnolia,barangay,Roma,,Punong Barangay,roma.png
+95,Magnolia,barangay,Sta. Maria,,Punong Barangay,sta-maria.png
+96,,sector,Sangguniang Kabataan,,SK Federation President,sk.png

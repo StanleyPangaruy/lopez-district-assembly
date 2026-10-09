@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>District Assembly Control</title>
+<style>
+:root{--bg:#141518;--panel:#1d1f23;--panel2:#25282d;--line:#33363d;--text:#ececef;--muted:#9a9ca4;
+  --red:#e8262c;--red2:#ff4d52;--green:#2fbf71}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font:14px/1.4 "Segoe UI",system-ui,sans-serif}
+button,input,select{font:inherit;color:inherit}
+button{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:7px 12px;cursor:pointer}
+button:hover{border-color:#555a63}
+button.primary{background:var(--red);border-color:var(--red);font-weight:700;letter-spacing:.5px}
+button.primary:hover{background:var(--red2)}
+input,select{background:#101114;border:1px solid var(--line);border-radius:6px;padding:7px 9px;width:100%;min-width:0}
+input:focus,select:focus{outline:2px solid #4b5563;outline-offset:-1px}
+label{display:block;color:var(--muted);font-size:12px;margin:0 0 3px}
+.wrap{max-width:760px;margin:0 auto;padding:12px}
+.row{display:flex;gap:8px;align-items:center}
+.grow{flex:1;min-width:0}
+
+/* live bar */
+.live{position:sticky;top:0;z-index:5;background:linear-gradient(#1d1f23,#1a1c20);border-bottom:2px solid var(--red);padding:12px}
+.live .wrap{padding:0}
+.onair{display:inline-flex;align-items:center;gap:6px;background:var(--red);color:#fff;font-weight:800;font-size:11px;
+  letter-spacing:1.5px;padding:3px 8px;border-radius:4px}
+.onair::before{content:"";width:7px;height:7px;border-radius:50%;background:#fff;animation:blink 1.4s infinite}
+@keyframes blink{50%{opacity:.25}}
+.offline .onair{background:#555}
+.live-name{font-size:22px;font-weight:800;letter-spacing:.3px;margin:6px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.live-sub{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.live .row{margin-top:10px;flex-wrap:wrap}
+.switch{display:flex;align-items:center;gap:6px;color:var(--text);font-size:14px;margin:0 0 0 auto;cursor:pointer;user-select:none}
+.switch input{width:auto}
+
+section,details{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;margin-top:12px}
+h3{margin:0 0 10px;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+summary{cursor:pointer;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+details[open] summary{margin-bottom:10px}
+
+/* list */
+.list{margin-top:10px;max-height:340px;overflow:auto;border:1px solid var(--line);border-radius:8px}
+.item{display:flex;gap:10px;align-items:center;padding:8px 10px;border-bottom:1px solid var(--line);cursor:pointer;user-select:none}
+.item:last-child{border-bottom:0}
+.item:hover{background:#23262b}
+.item.sel{background:#2a2f37}
+.item.is-live{box-shadow:inset 4px 0 0 var(--red)}
+.num{flex:none;width:28px;color:var(--muted);font-variant-numeric:tabular-nums;text-align:right}
+.who{flex:1;min-width:0}
+.who b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.who span{display:block;color:var(--muted);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.badge{flex:none;font-size:10px;font-weight:700;letter-spacing:1px;padding:2px 6px;border-radius:4px;background:#2f3339;color:#c9ccd2}
+.badge.sector{background:#3a2a12;color:#f3c26b}
+.badge.live{background:var(--red);color:#fff}
+.hint{color:var(--muted);font-size:12px;margin-top:6px}
+.empty{padding:18px;color:var(--muted);text-align:center}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid .full{grid-column:1/-1}
+@media (max-width:520px){.grid{grid-template-columns:1fr}}
+.msg{min-height:20px;margin-top:8px;font-size:13px;color:var(--green)}
+.msg.err{color:#ff7a7e}
+
+/* preview + links */
+.preview{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:6px;overflow:hidden}
+.preview iframe{position:absolute;left:0;top:0;width:1920px;height:1080px;border:0;transform-origin:0 0;pointer-events:none;background:transparent}
+.tabs{display:flex;gap:6px;margin:8px 0;flex-wrap:wrap}
+.tabs button.on{background:#3a3f47;border-color:#6b7280}
+.links{display:grid;gap:6px;margin-top:10px}
+.link{display:flex;gap:6px;align-items:center}
+.link span{flex:none;width:170px;color:var(--muted);font-size:12px}
+.link input{font-family:Consolas,monospace;font-size:12px}
+@media (max-width:520px){.link{flex-wrap:wrap}.link span{width:100%}}
+</style>
+</head>
+<body>
+
+<div class="live" id="liveBar">
+  <div class="wrap">
+    <div class="row" style="margin:0">
+      <span class="onair" id="onair">ON AIR</span>
+      <label class="switch"><input type="checkbox" id="showLt" checked> Lower third</label>
+    </div>
+    <div class="live-name" id="liveName">—</div>
+    <div class="live-sub" id="liveSub">Connecting to server…</div>
+    <div class="row">
+      <button id="prev" title="Previous speaker in the list">◀ Prev</button>
+      <button id="next" class="primary grow" title="Next speaker in the list">Next speaker ▶</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <section>
+    <h3>Roster</h3>
+    <div class="row">
+      <select id="fDistrict" style="max-width:190px"><option value="">All districts</option></select>
+      <input id="search" class="grow" placeholder="Search barangay, group or name…">
+      <button id="reload" title="Reload roster.csv after editing it">↻</button>
+    </div>
+    <div class="list" id="list"><div class="empty">Loading…</div></div>
+    <div class="hint">Click a row to edit it below · double-click to put it on air · Prev/Next follow this list.</div>
+  </section>
+
+  <section>
+    <h3>Selected speaker <span id="selTag" style="text-transform:none;letter-spacing:0"></span></h3>
+    <div class="grid">
+      <div><label for="eKind">Type</label>
+        <select id="eKind"><option value="barangay">Barangay</option><option value="sector">Sectoral group</option></select></div>
+      <div><label for="eDistrict">District (blank = municipal)</label><input id="eDistrict"></div>
+      <div class="full"><label for="eName">Barangay / group name</label><input id="eName"></div>
+      <div><label for="ePerson">Presenter</label><input id="ePerson"></div>
+      <div><label for="eRole">Role (blank = default)</label><input id="eRole"></div>
+      <div class="full"><label for="eLogo">Logo file in the logos folder (e.g. gomez.png)</label><input id="eLogo"></div>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <button id="take" class="primary grow">PUT ON AIR</button>
+      <button id="save" title="Write these changes back to roster.csv">Save to roster</button>
+    </div>
+    <div class="msg" id="msg"></div>
+  </section>
+
+  <details>
+    <summary>Event settings</summary>
+    <div class="grid">
+      <div class="full"><label for="sEvent">Event title (header, right side)</label><input id="sEvent"></div>
+      <div><label for="sH1">Header line 1</label><input id="sH1"></div>
+      <div><label for="sH2">Header line 2</label><input id="sH2"></div>
+      <div class="full"><label for="sNote">Presenter Only card note</label><input id="sNote"></div>
+    </div>
+    <div class="row" style="margin-top:12px"><button id="saveSettings">Apply settings</button></div>
+  </details>
+
+  <details id="prevBox">
+    <summary>Preview &amp; OBS links</summary>
+    <div class="tabs" id="tabs">
+      <button data-s="title">Title card</button><button data-s="2" class="on">Presenter + Presentation</button>
+      <button data-s="3">Presenter only</button><button data-s="4">Presentation only</button>
+    </div>
+    <div class="preview" id="preview"><iframe id="pvBg" title="background"></iframe><iframe id="pvFg" title="overlay"></iframe></div>
+    <div class="hint">Dark boxes are where your camera and slides go. Add each link below as a Browser Source, 1920 × 1080.</div>
+    <div class="links" id="links"></div>
+  </details>
+</div>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+let roster = [], state = null, selIndex = -1, settingsLoaded = false;
+
+async function api(path, body) {
+  const opt = body ? {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)} : {cache: "no-store"};
+  const r = await fetch(path, opt);
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(data.error || ("HTTP " + r.status));
+  return data;
+}
+function msg(text, err) { const m = $("msg"); m.textContent = text; m.className = "msg" + (err ? " err" : ""); if (!err) setTimeout(() => { if (m.textContent === text) m.textContent = ""; }, 3000); }
+
+const distOf = r => r.district || "(Municipal)";
+const isBrgy = r => (r.kind || "barangay").toLowerCase() === "barangay";
+const defRole = r => r.role || (isBrgy(r) ? "Punong Barangay" : "Sectoral President");
+
+/* ---------- roster ---------- */
+async function loadRoster() {
+  try { const d = await api("/api/roster"); roster = Array.isArray(d) ? d : []; }
+  catch (e) { roster = []; msg("Could not read roster.csv: " + e.message, true); }
+  const cur = $("fDistrict").value, sel = $("fDistrict");
+  sel.length = 1;
+  for (const d of [...new Set(roster.map(distOf))]) sel.add(new Option(d.startsWith("(") ? d : "District " + d, d));
+  sel.value = [...sel.options].some(o => o.value === cur) ? cur : "";
+  renderList();
+}
+
+function filtered() {
+  const d = $("fDistrict").value, q = $("search").value.trim().toLowerCase();
+  return roster.map((r, i) => ({r, i})).filter(({r}) =>
+    (!d || distOf(r) === d) && (!q || [r.name, r.person, r.district, r.role].join(" ").toLowerCase().includes(q)));
+}
+
+function renderList() {
+  const list = $("list"); list.innerHTML = "";
+  const rows = filtered(), liveIdx = state && state.speaker ? state.speaker.index : -1;
+  if (!rows.length) { list.innerHTML = '<div class="empty">No matching rows. Add speakers to roster.csv, then press ↻.</div>'; return; }
+  for (const {r, i} of rows) {
+    const it = document.createElement("div");
+    it.className = "item" + (i === selIndex ? " sel" : "") + (i === liveIdx ? " is-live" : "");
+    const num = document.createElement("div"); num.className = "num"; num.textContent = r.order || i + 1;
+    const who = document.createElement("div"); who.className = "who";
+    const b = document.createElement("b"); b.textContent = (isBrgy(r) ? "Brgy. " : "") + r.name;
+    const s = document.createElement("span"); s.textContent = [r.person, r.district ? "District " + r.district : "Municipal"].filter(Boolean).join(" · ");
+    who.append(b, s);
+    const badge = document.createElement("span");
+    badge.className = "badge" + (i === liveIdx ? " live" : isBrgy(r) ? "" : " sector");
+    badge.textContent = i === liveIdx ? "ON AIR" : isBrgy(r) ? "BRGY" : "SECTOR";
+    it.append(num, who, badge);
+    it.onclick = () => select(i);
+    it.ondblclick = () => { select(i); putOnAir(); };
+    list.appendChild(it);
+  }
+}
+
+function select(i) {
+  selIndex = i; const r = roster[i] || {};
+  $("eKind").value = isBrgy(r) ? "barangay" : "sector";
+  $("eDistrict").value = r.district || ""; $("eName").value = r.name || "";
+  $("ePerson").value = r.person || ""; $("eRole").value = r.role || ""; $("eLogo").value = r.logo || "";
+  $("selTag").textContent = r.name ? "— row " + (r.order || i + 1) : "";
+  renderList();
+}
+
+function editor() {
+  return {kind: $("eKind").value, district: $("eDistrict").value.trim(), name: $("eName").value.trim(),
+          person: $("ePerson").value.trim(), role: $("eRole").value.trim(), logo: $("eLogo").value.trim()};
+}
+
+/* ---------- live ---------- */
+async function putOnAir() {
+  const sp = editor();
+  if (!sp.name) return msg("Type a barangay or group name first.", true);
+  sp.index = selIndex;
+  try { state = await api("/api/state", {speaker: sp}); renderLive(); renderList(); msg("On air: " + sp.name); }
+  catch (e) { msg("Server not reachable: " + e.message, true); }
+}
+
+async function step(dir) {
+  const rows = filtered(); if (!rows.length) return;
+  const liveIdx = state && state.speaker ? state.speaker.index : -1;
+  let pos = rows.findIndex(x => x.i === liveIdx);
+  pos = pos < 0 ? 0 : Math.max(0, Math.min(rows.length - 1, pos + dir));
+  select(rows[pos].i); await putOnAir();
+  const el = $("list").querySelector(".item.sel"); if (el) el.scrollIntoView({block: "nearest"});
+}
+
+async function saveRow() {
+  if (selIndex < 0 || !roster[selIndex]) return msg("Pick a row from the roster first.", true);
+  const row = {...roster[selIndex], ...editor()};
+  try { await api("/api/roster/row", {index: selIndex, row}); roster[selIndex] = row; renderList(); msg("Saved to roster.csv"); }
+  catch (e) { msg(e.message, true); }
+}
+
+function renderLive() {
+  const bar = $("liveBar");
+  if (!state) { bar.classList.add("offline"); $("liveSub").textContent = "Server not running — start it with start.bat"; return; }
+  bar.classList.remove("offline");
+  const sp = state.speaker || {};
+  $("liveName").textContent = (isBrgy(sp) ? "Brgy. " : "") + (sp.name || "—");
+  $("liveSub").textContent = [sp.person, defRole(sp), sp.district ? "District " + sp.district : "Municipal"].filter(Boolean).join(" · ");
+  $("showLt").checked = state.show_lt !== false;
+  if (!settingsLoaded) {
+    const s = state.settings || {};
+    $("sEvent").value = s.event_title || ""; $("sH1").value = s.header1 || ""; $("sH2").value = s.header2 || ""; $("sNote").value = s.card_note || "";
+    settingsLoaded = true;
+  }
+}
+
+async function pollState() {
+  try {
+    const st = await api("/api/state");
+    const changed = !state || st.version !== state.version;
+    state = st; if (changed) { renderLive(); renderList(); }
+  } catch (e) { state = null; renderLive(); }
+  setTimeout(pollState, 1000);
+}
+
+/* ---------- preview + links ---------- */
+const BASE = location.origin + "/overlay.html";
+let pvScene = "2";
+function setPreview(s) {
+  pvScene = s;
+  document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("on", b.dataset.s === s));
+  if (s === "title") { $("pvBg").src = "about:blank"; $("pvFg").src = "overlay.html?scene=title"; }
+  else { $("pvBg").src = `overlay.html?scene=${s}&layer=bg`; $("pvFg").src = `overlay.html?scene=${s}&layer=fg`; }
+  scalePreview();
+}
+function scalePreview() {
+  const k = $("preview").clientWidth / 1920;
+  for (const f of [$("pvBg"), $("pvFg")]) f.style.transform = `scale(${k})`;
+}
+function buildLinks() {
+  const L = [["Title card", "?scene=title"],
+    ["Pres+Presentation — BG", "?scene=2&layer=bg"], ["Pres+Presentation — FG", "?scene=2&layer=fg"],
+    ["Presenter only — BG", "?scene=3&layer=bg"], ["Presenter only — FG", "?scene=3&layer=fg"],
+    ["Presentation only — BG", "?scene=4&layer=bg"], ["Presentation only — FG", "?scene=4&layer=fg"]];
+  for (const [name, q] of L) {
+    const d = document.createElement("div"); d.className = "link";
+    const s = document.createElement("span"); s.textContent = name;
+    const i = document.createElement("input"); i.readOnly = true; i.value = BASE + q; i.onclick = () => i.select();
+    const b = document.createElement("button"); b.textContent = "Copy";
+    b.onclick = async () => { i.select(); try { await navigator.clipboard.writeText(i.value); } catch (e) { document.execCommand("copy"); } b.textContent = "Copied"; setTimeout(() => b.textContent = "Copy", 1200); };
+    d.append(s, i, b); $("links").appendChild(d);
+  }
+}
+
+/* ---------- wire up ---------- */
+$("take").onclick = putOnAir;
+$("save").onclick = saveRow;
+$("prev").onclick = () => step(-1);
+$("next").onclick = () => step(1);
+$("reload").onclick = loadRoster;
+$("search").oninput = renderList;
+$("fDistrict").onchange = renderList;
+$("showLt").onchange = async e => { try { state = await api("/api/state", {show_lt: e.target.checked}); } catch (err) { msg(err.message, true); } };
+$("saveSettings").onclick = async () => {
+  try {
+    state = await api("/api/state", {settings: {event_title: $("sEvent").value.trim(), header1: $("sH1").value.trim(),
+      header2: $("sH2").value.trim(), card_note: $("sNote").value.trim()}});
+    msg("Settings applied");
+  } catch (e) { msg(e.message, true); }
+};
+for (const id of ["eName", "ePerson", "eRole", "eDistrict", "eLogo"]) $(id).addEventListener("keydown", e => { if (e.key === "Enter") putOnAir(); });
+document.querySelectorAll("#tabs button").forEach(b => b.onclick = () => setPreview(b.dataset.s));
+$("prevBox").addEventListener("toggle", () => { if ($("prevBox").open) setPreview(pvScene); });
+new ResizeObserver(scalePreview).observe($("preview"));
+
+buildLinks();
+loadRoster();
+pollState();
+</script>
+</body>
+</html>
