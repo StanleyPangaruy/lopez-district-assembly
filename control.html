@@ -128,7 +128,6 @@ details[open] summary{margin-bottom:10px}
       <div class="full"><label for="sEvent">Event title (header, right side)</label><input id="sEvent"></div>
       <div><label for="sH1">Header line 1</label><input id="sH1"></div>
       <div><label for="sH2">Header line 2</label><input id="sH2"></div>
-      <div class="full"><label for="sNote">Presenter Only card note</label><input id="sNote"></div>
     </div>
     <div class="row" style="margin-top:12px"><button id="saveSettings">Apply settings</button></div>
   </details>
@@ -251,7 +250,7 @@ function renderLive() {
   $("showLt").checked = state.show_lt !== false;
   if (!settingsLoaded) {
     const s = state.settings || {};
-    $("sEvent").value = s.event_title || ""; $("sH1").value = s.header1 || ""; $("sH2").value = s.header2 || ""; $("sNote").value = s.card_note || "";
+    $("sEvent").value = s.event_title || ""; $("sH1").value = s.header1 || ""; $("sH2").value = s.header2 || "";
     settingsLoaded = true;
   }
 }
@@ -306,7 +305,7 @@ $("showLt").onchange = async e => { try { state = await api("/api/state", {show_
 $("saveSettings").onclick = async () => {
   try {
     state = await api("/api/state", {settings: {event_title: $("sEvent").value.trim(), header1: $("sH1").value.trim(),
-      header2: $("sH2").value.trim(), card_note: $("sNote").value.trim()}});
+      header2: $("sH2").value.trim()}});
     msg("Settings applied");
   } catch (e) { msg(e.message, true); }
 };

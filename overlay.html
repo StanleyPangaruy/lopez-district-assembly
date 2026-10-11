@@ -71,14 +71,17 @@ body>*{position:absolute}
 .lt-person{font-weight:700;font-size:34px;line-height:38px}
 .lt-role{font-weight:500;font-size:21px;color:var(--grey);line-height:26px}
 
-/* ---------- scene 3: event card ---------- */
-.card{background:#fff;border-top:12px solid var(--red);padding:42px 30px 30px;box-shadow:0 10px 40px rgba(0,0,0,.33)}
-.c-muni{color:var(--red);font-weight:700;font-size:17px;letter-spacing:2px}
-.c-title{margin-top:26px}
+/* ---------- scene 3: presenter card ---------- */
+.card{background:#fff;border-top:12px solid var(--red);padding:40px 30px 30px;box-shadow:0 10px 40px rgba(0,0,0,.33);
+  display:flex;flex-direction:column;justify-content:flex-start}
+.c-role{color:var(--red);font-weight:700;font-size:17px;letter-spacing:2px}
+.c-prefix{margin-top:22px;font-weight:700;font-size:22px;letter-spacing:1px;color:var(--grey)}
+.c-person{margin-top:2px;font-family:var(--heavy);font-weight:900;font-size:52px;line-height:1.08;overflow:hidden}
+.c-brgy{font-weight:700;font-size:28px;line-height:1.2}
 .c-word{font-family:var(--heavy);font-weight:900;font-size:64px;line-height:1.1}
 .c-rule{width:60px;height:6px;background:var(--red);margin:22px 0 24px}
-.c-dist{font-weight:700;font-size:32px;line-height:1.2}
-.c-note{font-weight:500;font-size:20px;line-height:1.4;color:var(--grey);margin-top:14px}
+.c-dist{font-weight:500;font-size:20px;line-height:1.4;color:var(--grey);margin-top:6px}
+.lt.no-person .lt-div,.lt.no-person .lt-right{display:none}
 
 /* ---------- scene 4: side column ---------- */
 .col{display:flex;flex-direction:column;align-items:center;text-align:center}
@@ -90,6 +93,17 @@ body>*{position:absolute}
 .c4-role{font-weight:500;font-size:17px;color:var(--grey);margin-top:4px}
 
 /* ---------- title card ---------- */
+.photo{left:0;top:0;width:1920px;height:1080px;background:url("assets/lopez_quezon.jpg") 60% 45%/cover no-repeat;
+  transform-origin:72% 55%;animation:drift 36s ease-in-out infinite alternate}
+@keyframes drift{from{transform:scale(1.03) translateX(0)}to{transform:scale(1.13) translateX(-30px)}}
+.photo-tint{left:0;top:0;width:1920px;height:1080px;
+  background:linear-gradient(200deg,rgba(176,20,26,0) 35%,rgba(176,20,26,.35) 100%),linear-gradient(180deg,rgba(0,0,0,.15),rgba(0,0,0,0) 30%,rgba(0,0,0,.35))}
+.wash{left:0;top:0;width:1920px;height:1080px;clip-path:polygon(0 0,1290px 0,1050px 1080px,0 1080px);
+  background:repeating-linear-gradient(112.8deg,rgba(0,0,0,.03) 0 2px,transparent 2px 42px),
+             radial-gradient(ellipse 520px 260px at 0 100%,rgba(244,243,240,.75),rgba(244,243,240,0)),
+             linear-gradient(90deg,rgba(244,243,240,.9) 0%,rgba(244,243,240,.8) 50%,rgba(236,234,230,.66) 100%)}
+.edge{left:0;top:0;width:1920px;height:1080px;background:var(--red);clip-path:polygon(1290px 0,1318px 0,1078px 1080px,1050px 1080px)}
+.edge2{left:0;top:0;width:1920px;height:1080px;background:rgba(255,255,255,.85);clip-path:polygon(1330px 0,1336px 0,1096px 1080px,1090px 1080px)}
 .panel{left:0;top:0;width:1920px;height:1080px;
   background:repeating-linear-gradient(112.8deg,rgba(255,255,255,.07) 0 2px,transparent 2px 31px),linear-gradient(var(--red),var(--red-dark));
   clip-path:polygon(1290px 0,1920px 0,1920px 1080px,1050px 1080px)}
@@ -152,7 +166,7 @@ function backdropHTML() {
   return `<div class="bg"></div><div class="stripes"></div><div class="w1"></div><div class="w2"></div>`;
 }
 
-const ltHTML = () => `<div class="lt" id="lt">
+const ltHTML = (noPerson) => `<div class="lt${noPerson ? " no-person" : ""}" id="lt">
   <div class="lt-tag" id="lt-district"></div>
   <div class="lt-plate">
     <div class="lt-left"><div class="lt-small" id="lt-small"></div><div class="lt-name fit" id="lt-name"></div></div>
@@ -160,9 +174,10 @@ const ltHTML = () => `<div class="lt" id="lt">
     <div class="lt-right"><div class="lt-person fit" id="lt-person"></div><div class="lt-role fit" id="lt-role"></div></div>
   </div></div>`;
 
-const cardHTML = () => `<div class="card" style="${box([1520, 465, 360, 480])}">
-  <div class="c-muni fit" id="c-muni"></div><div class="c-title" id="c-title"></div>
-  <div class="c-rule"></div><div class="c-dist fit" id="c-dist"></div><div class="c-note" id="c-note"></div></div>`;
+const cardHTML = () => `<div class="card swap" style="${box([1520, 465, 360, 480])}">
+  <div class="c-role fit" id="c-role"></div>
+  <div class="c-prefix" id="c-prefix"></div><div class="c-person" id="c-person"></div>
+  <div class="c-rule"></div></div>`;
 
 const colHTML = () => `<div class="col swap" id="col" style="left:1671px;top:362px;width:224px">
   <div class="pill fit" id="c4-district"></div><div class="c4-small fit" id="c4-small"></div>
@@ -172,7 +187,7 @@ const colHTML = () => `<div class="col swap" id="col" style="left:1671px;top:362
 function build() {
   let h = "";
   if (SCENE === "title") {
-    h += `<div class="bg"></div><div class="stripes"></div><div class="panel"></div>` + headerHTML();
+    h += `<div class="bg"></div><div class="photo"></div><div class="photo-tint"></div><div class="wash"></div><div class="edge"></div><div class="edge2"></div>` + headerHTML();
     h += `<div class="plate"></div>` + logoHTML("logo", 430, 12, 150, 414, 48, true);
     h += `<div class="ribbon swap" id="t-district"></div>
       <div class="t-text swap"><div class="t-small" id="t-small"></div><div class="t-name fit" id="t-name"></div>
@@ -193,7 +208,7 @@ function build() {
         h += `<div class="tab" style="${box([x - 6, y - 14, 96, 8])}"></div>`;
         h += logoHTML("logo", 250, 8, 1575, 169, 28, true) + ltHTML();
       } else if (SCENE === "3") {
-        h += logoHTML("logo", 250, 8, 1575, 175, 28, true) + cardHTML() + ltHTML();
+        h += logoHTML("logo", 250, 8, 1575, 175, 28, true) + cardHTML() + ltHTML(true);
       } else if (SCENE === "4") {
         h += logoHTML("logo", 190, 8, 1688, 140, 22, true) + colHTML();
       }
@@ -250,16 +265,6 @@ function applySettings(st) {
   T("h1", s.header1); T("h2", s.header2); T("event", s.event_title);
   setLogo("seal1", "logos/province_seal.png", "PROVINCE\nSEAL");
   setLogo("seal2", "logos/municipal_seal.png", "MUNICIPAL\nSEAL");
-  if ($("c-title")) {
-    T("c-muni", muni(st)); fitWidth($("c-muni"), 17, 11);
-    $("c-title").innerHTML = "";
-    for (const w of (s.event_title || "").split(/\s+/).filter(Boolean)) {
-      const d = document.createElement("div");
-      d.className = "c-word fit"; d.textContent = w;
-      $("c-title").appendChild(d); fitWidth(d, 64, 28);
-    }
-    T("c-note", s.card_note);
-  }
 }
 
 function applySpeaker(st) {
@@ -279,8 +284,13 @@ function applySpeaker(st) {
   fitWidth(T("t-person", sp.person), 38, 22);
   fitWidth(T("t-role", lb.role), 26, 16);
 
-  // scene 3 card
-  fitWidth(T("c-dist", sp.district ? "District " + sp.district : "Sectoral Groups"), 32, 18);
+  // scene 3 presenter card: title (Kap./Hon.) small, name big
+  const m = (sp.person || "").match(/^((?:Kap|Hon|Brgy\. Capt|Capt)\.?)\s+(.*)$/i);
+  T("c-role", lb.role.toUpperCase()); fitWidth($("c-role"), 17, 11);
+  T("c-prefix", m ? m[1] : "");
+  fitBox(T("c-person", m ? m[2] : sp.person), 52, 26, 260);
+  fitWidth(T("c-brgy", isBrgy(sp) ? "Barangay " + (sp.name || "") : (sp.name || "")), 28, 16);
+  fitWidth(T("c-dist", sp.district ? "District " + sp.district : muni(st).toLowerCase().replace(/\b\w/g, c => c.toUpperCase()).replace(/\bOf\b/, "of")), 20, 13);
 
   // scene 4 column
   fitWidth(T("c4-district", tag), 17, 11);

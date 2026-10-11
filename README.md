@@ -57,6 +57,8 @@ Untick **Shutdown source when not visible** and **Refresh browser when scene bec
 | Assembly BG 2 | `http://127.0.0.1:8765/overlay.html?scene=2&layer=bg` |
 
 #### 🎬 Presenter Only
+*The side card shows the presenter's name; the lower third shows only the district and barangay.*
+
 | Source | Setting |
 |---|---|
 | Assembly FG 3 | `http://127.0.0.1:8765/overlay.html?scene=3&layer=fg` |
@@ -79,7 +81,7 @@ Untick **Shutdown source when not visible** and **Refresh browser when scene bec
 - **Double-click a name** in the roster, or press **Next speaker ▶**. All scenes switch at once.
 - **Typo?** Click the row, fix the text, press **PUT ON AIR**. **Save to roster** makes it permanent.
 - **Lower third** switch hides or shows the name bar.
-- **Event settings** changes "DISTRICT ASSEMBLY", the header lines and the card note.
+- **Event settings** changes "DISTRICT ASSEMBLY" and the header lines.
 
 ---
 
