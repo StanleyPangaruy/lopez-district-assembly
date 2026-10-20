@@ -9,3 +9,7 @@ logos/_originals/
 *.pub
 
 *.xlsx
+
+# full-size revamped logos (resized copies live in logos/new/)
+logos/new/Champaca/
+logos/new/Daisy/
