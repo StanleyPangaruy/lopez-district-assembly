@@ -1,11 +1,11 @@
 ﻿order,district,kind,name,person,role,logo
-1,Poblacion,barangay,Burgos,Kap. Jose Ariel M. Quincina,Punong Barangay,logos/new/burgos.png
-2,Poblacion,barangay,Bocboc,Kap. Sofia F. Amortizado,Punong Barangay,logos/new/bocboc.png
-3,Poblacion,barangay,Gomez,Kap. Thelma D. Libranda,Punong Barangay,logos/new/gomez.png
-4,Poblacion,barangay,Danlagan,Kap. Vilma V. Villaflores,Punong Barangay,logos/new/danlagan.png
-5,Poblacion,barangay,Talolong,Kap. Alicia C. Ursulum,Punong Barangay,logos/new/talolong.png
-6,Poblacion,barangay,Rizal Poblacion,Kap. Reynaldo A. Salumbides Jr.,Punong Barangay,logos/new/rizal-poblacion.png
-7,Poblacion,barangay,Magsaysay,Kap. Ramil S. Abellera,Punong Barangay,logos/new/magsaysay.png
+1,Poblacion,barangay,Burgos,Kgg. Jose Ariel M. Quincina,Punong Barangay,logos/new/burgos.png
+2,Poblacion,barangay,Bocboc,Kgg. Sofia F. Amortizado,Punong Barangay,logos/new/bocboc.png
+3,Poblacion,barangay,Gomez,Kgg. Thelma D. Libranda,Punong Barangay,logos/new/gomez.png
+4,Poblacion,barangay,Danlagan,Kgg. Vilma V. Villaflores,Punong Barangay,logos/new/danlagan.png
+5,Poblacion,barangay,Talolong,Kgg. Alicia C. Ursulum,Punong Barangay,logos/new/talolong.png
+6,Poblacion,barangay,Rizal Poblacion,Kgg. Reynaldo A. Salumbides Jr.,Punong Barangay,logos/new/rizal-poblacion.png
+7,Poblacion,barangay,Magsaysay,Kgg. Ramil S. Abellera,Punong Barangay,logos/new/magsaysay.png
 8,Mahogany,barangay,Cawayan,Kgg. Esmeraldo V. Desembrana,Punong Barangay,logos/new/cawayan.png
 9,Mahogany,barangay,Del Rosario,Kgg. Mercy C. Villasoto,Punong Barangay,logos/new/del-rosario.png
 10,Mahogany,barangay,Magallanes,Kgg. Pedro C. Maulawin,Punong Barangay,logos/new/magallanes.png
@@ -17,17 +17,17 @@
 16,Mahogany,barangay,Villa Aurora,Kgg. Peter A. Eugenio,Punong Barangay,logos/new/villa-aurora.png
 17,Mahogany,barangay,Villa Espina,Kgg. Jayson P. Garbulo,Punong Barangay,logos/new/villa-espina.png
 18,Mahogany,barangay,Villageda,Kgg. Adrian V. Barreno,Punong Barangay,logos/new/villageda.png
-19,Ilang-Ilang,barangay,Bacungan,Kap. Emily S. Nieva,Punong Barangay,logos/new/bacungan.png
+19,Ilang-Ilang,barangay,Bacungan,Kgg. Emily S. Nieva,Punong Barangay,logos/new/bacungan.png
 20,Ilang-Ilang,barangay,Banabahin Ibaba,Kgg. Felicisimo N. Siaga,Punong Barangay,logos/new/banabahin-ibaba.png
 21,Ilang-Ilang,barangay,Banabahin Ilaya,Kgg. Gavino Walter E. Valencia,Punong Barangay,logos/new/banabahin-ilaya.png
 22,Ilang-Ilang,barangay,Buenavista,Kgg. Amelia N. Villasanta,Punong Barangay,logos/new/buenavista.png
-23,Ilang-Ilang,barangay,Monteclaro,Kap. Jimmy S. Babiera,Punong Barangay,logos/new/monteclaro.png
-24,Ilang-Ilang,barangay,Pamampangin,Kap. Zaldy V. Tanteo,Punong Barangay,logos/new/pamampangin.png
-25,Ilang-Ilang,barangay,Pisipis,Kap. Rommel B. Mociros,Punong Barangay,logos/new/pisipis.png
+23,Ilang-Ilang,barangay,Monteclaro,Kgg. Jimmy S. Babiera,Punong Barangay,logos/new/monteclaro.png
+24,Ilang-Ilang,barangay,Pamampangin,Kgg. Zaldy V. Tanteo,Punong Barangay,logos/new/pamampangin.png
+25,Ilang-Ilang,barangay,Pisipis,Kgg. Rommel B. Mociros,Punong Barangay,logos/new/pisipis.png
 26,Ilang-Ilang,barangay,Tan-ag Ibaba,Kgg. Evelyn L. Lozande,Punong Barangay,logos/new/tan-ag-ibaba.png
 27,Ilang-Ilang,barangay,Tan-ag Ilaya,Kgg. Noe J. Villegas,Punong Barangay,logos/new/tan-ag-ilaya.png
 28,Ilang-Ilang,barangay,Tocalin,Kgg. Julita M. Abelito,Punong Barangay,logos/new/tocalin.png
-29,Ilang-Ilang,barangay,Lalaguna,Kap. Kennedy L. Gime,Punong Barangay,logos/new/lalaguna.png
+29,Ilang-Ilang,barangay,Lalaguna,Kgg. Kennedy L. Gime,Punong Barangay,logos/new/lalaguna.png
 30,Molave,barangay,Bebito,Kgg. Rolando H. Villancio,Punong Barangay,logos/new/bebito.png
 31,Molave,barangay,Canda Ibaba,Kgg. Venchito C. Morales,Punong Barangay,logos/new/canda-ibaba.png
 32,Molave,barangay,Canda Ilaya,Kgg. Simonito L. Englatierra,Punong Barangay,logos/new/canda-ilaya.png
@@ -47,17 +47,17 @@
 46,Rosal,barangay,San Francisco B,Kgg. Joedel V. Driz,Punong Barangay,logos/new/san-francisco-b.png
 47,Rosal,barangay,San Miguel Dao,Kgg. Alex P. Dimatulac,Punong Barangay,logos/new/san-miguel-dao.png
 48,Rosal,barangay,Sumalang,Kgg. Pablo M. Edora,Punong Barangay,logos/new/sumalang.png
-49,Sampaguita,barangay,Calantipayan,Kap. Librado V. Baltan,Punong Barangay,logos/new/calantipayan.png
-50,Sampaguita,barangay,Del Pilar,Kap. Dello Jay G. Masaga,Punong Barangay,logos/new/del-pilar.png
-51,Sampaguita,barangay,Guihay,Kap. Crispin R. Monterde Jr.,Punong Barangay,logos/new/guihay.png
-52,Sampaguita,barangay,Jongo,Kap. Luisito L. Revuelta,Punong Barangay,logos/new/jongo.png
-53,Sampaguita,barangay,Mal-ay,Kap. Mario O. Rioveros,Punong Barangay,logos/new/mal-ay.png
-54,Sampaguita,barangay,Manguisian,Kap. Rioday M. Argente,Punong Barangay,logos/new/manguisian.png
-55,Sampaguita,barangay,Pansol,Kap. Rene M. Garcia,Punong Barangay,logos/new/pansol.png
-56,Sampaguita,barangay,Sta. Teresa,Kap. Emmanuel R. Dela Peña,Punong Barangay,logos/new/sta-teresa.png
-57,Sampaguita,barangay,Sugod,Kap. Ernanie M. Grutas,Punong Barangay,logos/new/sugod.png
-58,Sampaguita,barangay,San Jose,Kap. Wilfredo G. Jimena Sr.,Punong Barangay,logos/new/san-jose.png
-59,Sampaguita,barangay,Sta. Lucia,Kap. Felimon A. De Jusay,Punong Barangay,logos/new/sta-lucia.png
+49,Sampaguita,barangay,Calantipayan,Kgg. Librado V. Baltan,Punong Barangay,logos/new/calantipayan.png
+50,Sampaguita,barangay,Del Pilar,Kgg. Dello Jay G. Masaga,Punong Barangay,logos/new/del-pilar.png
+51,Sampaguita,barangay,Guihay,Kgg. Crispin R. Monterde Jr.,Punong Barangay,logos/new/guihay.png
+52,Sampaguita,barangay,Jongo,Kgg. Luisito L. Revuelta,Punong Barangay,logos/new/jongo.png
+53,Sampaguita,barangay,Mal-ay,Kgg. Mario O. Rioveros,Punong Barangay,logos/new/mal-ay.png
+54,Sampaguita,barangay,Manguisian,Kgg. Rioday M. Argente,Punong Barangay,logos/new/manguisian.png
+55,Sampaguita,barangay,Pansol,Kgg. Rene M. Garcia,Punong Barangay,logos/new/pansol.png
+56,Sampaguita,barangay,Sta. Teresa,Kgg. Emmanuel R. Dela Peña,Punong Barangay,logos/new/sta-teresa.png
+57,Sampaguita,barangay,Sugod,Kgg. Ernanie M. Grutas,Punong Barangay,logos/new/sugod.png
+58,Sampaguita,barangay,San Jose,Kgg. Wilfredo G. Jimena Sr.,Punong Barangay,logos/new/san-jose.png
+59,Sampaguita,barangay,Sta. Lucia,Kgg. Felimon A. De Jusay,Punong Barangay,logos/new/sta-lucia.png
 60,Daisy,barangay,Binahian A,Kgg. Leonisa C. Masaga,Punong Barangay,binahian-a.png
 61,Daisy,barangay,Binahian B,Kgg. Emely D. Restum,Punong Barangay,logos/new/binahian-b.png
 62,Daisy,barangay,Binahian C,Kgg. Manuel E. Rosales,Punong Barangay,logos/new/binahian-c.png
@@ -113,8 +113,8 @@
 112,Daisy,sector,BKAP,Kgd. Larry Valenzuela,Pangulo,bkap.jpg
 113,Daisy,sector,Peace and Order Council,Kgg. Leonardo Paligar,Pangulo,poc.png
 114,Daisy,sector,VAWC,Kgg. Vilma Aveño,Pangulo,vawc.png
-115,Daisy,sector,Treasurer,Gng.Geraldine Esclanda,Pangulo,treasurer.jpg
-116,Daisy,sector,Secretary,Gng.Anna Joy Macawili,Pangulo,secretary.jpg
+115,Daisy,sector,Treasurer,Gng. Geraldine Esclanda,Pangulo,treasurer.jpg
+116,Daisy,sector,Secretary,Gng. Anna Joy Macawili,Pangulo,secretary.jpg
 117,Daisy,sector,Child Development Worker,Gng. Ma. Concepcion Lucañas,Pangulo,dcw.jpg
 118,Daisy,sector,Barangay Nutrition Scholar,Gng. Sherly San Felipe,Pangulo,bns.png
 119,Daisy,sector,Barangay Health Worker,Gng. Mida Tañazana,Pangulo,bhw.jpg
@@ -125,7 +125,7 @@
 124,Ilang-Ilang,sector,Sangguniang Kabataan,Kgg. John Paul Verdera,Pangulo,sk.png
 125,Ilang-Ilang,sector,BKAP,Kgd. Esperanza Vilar,Pangulo,bkap.jpg
 126,Ilang-Ilang,sector,VAWC,Kgd. Leslie Tiama,Pangulo,vawc.png
-127,Ilang-Ilang,sector,Treasurer,Gng.Marilyn Marbella,Pangulo,treasurer.jpg
+127,Ilang-Ilang,sector,Treasurer,Gng. Marilyn Marbella,Pangulo,treasurer.jpg
 128,Ilang-Ilang,sector,Secretary,G. Jesusito Vilar,Pangulo,secretary.jpg
 129,Ilang-Ilang,sector,Child Development Worker,Gng. Jerilyn Llanita,Pangulo,dcw.jpg
 130,Ilang-Ilang,sector,Barangay Nutrition Scholar,Gng. Lorna Otivar,Pangulo,bns.png
@@ -144,7 +144,7 @@
 143,Magnolia,sector,BNS,Gng. Vilma Argamosa,Pangulo,bns.png
 144,Magnolia,sector,BESU,Gng. Zaira Balboa,Pangulo,besu.png
 145,Magnolia,sector,Barangay Justice,,Pangulo,justice.jpg
-146,Magnolia,sector,Barangay Police,G.Verno Ken Odoño,Pangulo,police.png
+146,Magnolia,sector,Barangay Police,G. Verno Ken Odoño,Pangulo,police.png
 147,Magnolia,sector,4K,Gng. Lucena Magno,Pangulo,4K.jpg
 148,Magnolia,sector,Samahan ng Mangingisda,G. Noel Bentonio,Pangulo,mangingisda.png
 149,Magnolia,sector,Barangay Health Worker,Gng. Wilma Bagapuro,Pangulo,bhw.jpg

@@ -140,7 +140,7 @@ const LAYOUT = {
 
 let state = {
   version: -1, show_lt: true,
-  speaker: {kind: "barangay", district: "Poblacion", name: "Gomez", person: "Kap. Juan Dela Cruz", role: "Punong Barangay", logo: ""},
+  speaker: {kind: "barangay", district: "Poblacion", name: "Gomez", person: "Kgg. Juan Dela Cruz", role: "Punong Barangay", logo: ""},
   settings: {event_title: "DISTRICT ASSEMBLY", header1: "PROVINCE OF QUEZON", header2: "THE MUNICIPALITY OF LOPEZ",
              card_note: "Presentation of barangay and sectoral reports"},
 };
@@ -284,8 +284,8 @@ function applySpeaker(st) {
   fitWidth(T("t-person", sp.person), 38, 22);
   fitWidth(T("t-role", lb.role), 26, 16);
 
-  // scene 3 presenter card: title (Kap./Hon.) small, name big
-  const m = (sp.person || "").match(/^((?:Kap|Hon|Brgy\. Capt|Capt)\.?)\s+(.*)$/i);
+  // scene 3 presenter card: title (Kgg./Gng./G.) small, name big
+  const m = (sp.person || "").match(/^((?:Kgg|Kgd|Gng|Kap|Hon|Capt|G)\.)\s*(.*)$/i);
   T("c-role", lb.role.toUpperCase()); fitWidth($("c-role"), 17, 11);
   T("c-prefix", m ? m[1] : "");
   fitBox(T("c-person", m ? m[2] : sp.person), 52, 26, 260);
