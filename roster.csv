@@ -1,22 +1,22 @@
 ﻿order,district,kind,name,person,role,logo
-1,Poblacion,barangay,Burgos,Kap. Jose Ariel M. Quincina,Punong Barangay,burgos.png
-2,Poblacion,barangay,Bocboc,Kap. Sofia F. Amortizado,Punong Barangay,bocboc.png
-3,Poblacion,barangay,Gomez,Kap. Thelma D. Libranda,Punong Barangay,gomez.png
-4,Poblacion,barangay,Danlagan,Kap. Vilma V. Villaflores,Punong Barangay,danlagan.png
-5,Poblacion,barangay,Talolong,Kap. Alicia C. Ursulum,Punong Barangay,talolong.png
-6,Poblacion,barangay,Rizal Poblacion,Kap. Reynaldo A. Salumbides Jr.,Punong Barangay,rizal-poblacion.png
-7,Poblacion,barangay,Magsaysay,Kap. Ramil S. Abellera,Punong Barangay,magsaysay.png
-8,Mahogany,barangay,Cawayan,Kap. Esmeraldo V. Desembrana,Punong Barangay,cawayan.png
-9,Mahogany,barangay,Del Rosario,Kap. Mercy C. Villasoto,Punong Barangay,del-rosario.png
-10,Mahogany,barangay,Magallanes,Kap. Pedro C. Maulawin,Punong Barangay,magallanes.png
-11,Mahogany,barangay,Rizal Rural,Kap. Illan A. Naval,Punong Barangay,rizal-rural.png
-12,Mahogany,barangay,San Andres,Kap. Teofilo C. Cariño,Punong Barangay,san-andres.png
-13,Mahogany,barangay,Vegaflor,Kap. Mercedes B. Pilarca,Punong Barangay,vegaflor.png
-14,Mahogany,barangay,Vergaña,Kap. Letecia M. Lomibao,Punong Barangay,vergana.png
-15,Mahogany,barangay,Veronica,Kap. Francisco Arvin P. Arche,Punong Barangay,veronica.png
-16,Mahogany,barangay,Villa Aurora,Kap. Peter A. Eugenio,Punong Barangay,villa-aurora.png
-17,Mahogany,barangay,Villa Espina,Kap. Jayson P. Garbulo,Punong Barangay,villa-espina.png
-18,Mahogany,barangay,Villageda,Kap. Adrian V. Barreno,Punong Barangay,villageda.png
+1,Poblacion,barangay,Burgos,Kap. Jose Ariel M. Quincina,Punong Barangay,logos/new/burgos.png
+2,Poblacion,barangay,Bocboc,Kap. Sofia F. Amortizado,Punong Barangay,logos/new/bocboc.png
+3,Poblacion,barangay,Gomez,Kap. Thelma D. Libranda,Punong Barangay,logos/new/gomez.png
+4,Poblacion,barangay,Danlagan,Kap. Vilma V. Villaflores,Punong Barangay,logos/new/danlagan.png
+5,Poblacion,barangay,Talolong,Kap. Alicia C. Ursulum,Punong Barangay,logos/new/talolong.png
+6,Poblacion,barangay,Rizal Poblacion,Kap. Reynaldo A. Salumbides Jr.,Punong Barangay,logos/new/rizal-poblacion.png
+7,Poblacion,barangay,Magsaysay,Kap. Ramil S. Abellera,Punong Barangay,logos/new/magsaysay.png
+8,Mahogany,barangay,Cawayan,Kgg. Esmeraldo V. Desembrana,Punong Barangay,logos/new/cawayan.png
+9,Mahogany,barangay,Del Rosario,Kgg. Mercy C. Villasoto,Punong Barangay,logos/new/del-rosario.png
+10,Mahogany,barangay,Magallanes,Kgg. Pedro C. Maulawin,Punong Barangay,logos/new/magallanes.png
+11,Mahogany,barangay,Rizal Rural,Kgg. Illan A. Naval,Punong Barangay,logos/new/rizal-rural.png
+12,Mahogany,barangay,San Andres,Kgg. Teofilo C. Cariño,Punong Barangay,logos/new/san-andres.png
+13,Mahogany,barangay,Vegaflor,Kgg. Mercedes B. Pilarca,Punong Barangay,logos/new/vegaflor.png
+14,Mahogany,barangay,Vergaña,Kgg. Letecia M. Lomibao,Punong Barangay,logos/new/vergana.png
+15,Mahogany,barangay,Veronica,Kgg. Francisco Arvin P. Arche,Punong Barangay,logos/new/veronica.png
+16,Mahogany,barangay,Villa Aurora,Kgg. Peter A. Eugenio,Punong Barangay,logos/new/villa-aurora.png
+17,Mahogany,barangay,Villa Espina,Kgg. Jayson P. Garbulo,Punong Barangay,logos/new/villa-espina.png
+18,Mahogany,barangay,Villageda,Kgg. Adrian V. Barreno,Punong Barangay,logos/new/villageda.png
 19,Ilang-Ilang,barangay,Bacungan,Kap. Emily S. Nieva,Punong Barangay,logos/new/bacungan.png
 20,Ilang-Ilang,barangay,Banabahin Ibaba,Kgg. Felicisimo N. Siaga,Punong Barangay,logos/new/banabahin-ibaba.png
 21,Ilang-Ilang,barangay,Banabahin Ilaya,Kgg. Gavino Walter E. Valencia,Punong Barangay,logos/new/banabahin-ilaya.png
@@ -28,36 +28,36 @@
 27,Ilang-Ilang,barangay,Tan-ag Ilaya,Kgg. Noe J. Villegas,Punong Barangay,logos/new/tan-ag-ilaya.png
 28,Ilang-Ilang,barangay,Tocalin,Kgg. Julita M. Abelito,Punong Barangay,logos/new/tocalin.png
 29,Ilang-Ilang,barangay,Lalaguna,Kap. Kennedy L. Gime,Punong Barangay,logos/new/lalaguna.png
-30,Molave,barangay,Bebito,Kap. Rolando H. Villancio,Punong Barangay,bebito.png
-31,Molave,barangay,Canda Ibaba,Kap. Venchito C. Morales,Punong Barangay,canda-ibaba.png
-32,Molave,barangay,Canda Ilaya,Kap. Simonito L. Englatierra,Punong Barangay,canda-ilaya.png
-33,Molave,barangay,Dela Paz,Kap. Arsenio N. Arroyo Jr.,Punong Barangay,dela-paz.png
-34,Molave,barangay,Esperanza Ibaba,Kap. Michael D. Suarez,Punong Barangay,esperanza-ibaba.png
-35,Molave,barangay,Esperanza Ilaya,Kap. Ericson O. Alano,Punong Barangay,esperanza-ilaya.png
-36,Molave,barangay,Maguilayan,Kap. Larry G. Argamosa,Punong Barangay,maguilayan.png
-37,Molave,barangay,Mahayod-Hayod,Kap. Lanie A. Villanueva,Punong Barangay,mahayod-hayod.png
-38,Molave,barangay,San Roque,Kap. Ulpiano V. Lucido,Punong Barangay,san-roque.png
-39,Rosal,barangay,Villa Hermosa,Kap. Benito Alfred T. Arella,Punong Barangay,villa-hermosa.png
-40,Rosal,barangay,Cogorin Ibaba,Kap. Maria Fatima C. Vasquez,Punong Barangay,cogorin-ibaba.png
-41,Rosal,barangay,Cogorin Ilaya,Kap. Wilson A. Olanda,Punong Barangay,cogorin-ilaya.png
-42,Rosal,barangay,Rosario,Kap. Marc John A. Ocson,Punong Barangay,rosario.png
-43,Rosal,barangay,Silang,Kap. Jordan R. Brosas,Punong Barangay,silang.png
-44,Rosal,barangay,San Antonio,Kap. Edison O. Benedicto,Punong Barangay,san-antonio.png
-45,Rosal,barangay,San Francisco A,Kap. Redym A. Masaga,Punong Barangay,san-francisco-a.png
-46,Rosal,barangay,San Francisco B,Kap. Joedel V. Driz,Punong Barangay,san-francisco-b.png
-47,Rosal,barangay,San Miguel Dao,Kap. Alex P. Dimatulac,Punong Barangay,san-miguel-dao.png
-48,Rosal,barangay,Sumalang,Kap. Pablo M. Edora,Punong Barangay,sumalang.png
-49,Sampaguita,barangay,Calantipayan,Kap. Librado V. Baltan,Punong Barangay,calantipayan.png
-50,Sampaguita,barangay,Del Pilar,Kap. Dello Jay G. Masaga,Punong Barangay,del-pilar.png
-51,Sampaguita,barangay,Guihay,Kap. Crispin R. Monterde Jr.,Punong Barangay,guihay.png
-52,Sampaguita,barangay,Jongo,Kap. Luisito L. Revuelta,Punong Barangay,jongo.png
-53,Sampaguita,barangay,Mal-ay,Kap. Mario O. Rioveros,Punong Barangay,mal-ay.png
-54,Sampaguita,barangay,Manguisian,Kap. Rioday M. Argente,Punong Barangay,manguisian.png
-55,Sampaguita,barangay,Pansol,Kap. Rene M. Garcia,Punong Barangay,pansol.png
-56,Sampaguita,barangay,Sta. Teresa,Kap. Emmanuel R. Dela Peña,Punong Barangay,sta-teresa.png
-57,Sampaguita,barangay,Sugod,Kap. Ernanie M. Grutas,Punong Barangay,sugod.png
-58,Sampaguita,barangay,San Jose,Kap. Wilfredo G. Jimena Sr.,Punong Barangay,san-jose.png
-59,Sampaguita,barangay,Sta. Lucia,Kap. Felimon A. De Jusay,Punong Barangay,sta-lucia.png
+30,Molave,barangay,Bebito,Kgg. Rolando H. Villancio,Punong Barangay,logos/new/bebito.png
+31,Molave,barangay,Canda Ibaba,Kgg. Venchito C. Morales,Punong Barangay,logos/new/canda-ibaba.png
+32,Molave,barangay,Canda Ilaya,Kgg. Simonito L. Englatierra,Punong Barangay,logos/new/canda-ilaya.png
+33,Molave,barangay,Dela Paz,Kgg. Arsenio N. Arroyo Jr.,Punong Barangay,logos/new/dela-paz.png
+34,Molave,barangay,Esperanza Ibaba,Kgg. Michael D. Suarez,Punong Barangay,logos/new/esperanza-ibaba.png
+35,Molave,barangay,Esperanza Ilaya,Kgg. Ericson O. Alano,Punong Barangay,logos/new/esperanza-ilaya.png
+36,Molave,barangay,Maguilayan,Kgg. Larry G. Argamosa,Punong Barangay,logos/new/maguilayan.png
+37,Molave,barangay,Mahayod-Hayod,Kgg. Lanie A. Villanueva,Punong Barangay,logos/new/mahayod-hayod.png
+38,Molave,barangay,San Roque,Kgg. Ulpiano V. Lucido,Punong Barangay,logos/new/san-roque.png
+39,Rosal,barangay,Villa Hermosa,Kgg. Benito Alfred T. Arella,Punong Barangay,logos/new/villa-hermosa.png
+40,Rosal,barangay,Cogorin Ibaba,Kgg. Maria Fatima C. Vasquez,Punong Barangay,logos/new/cogorin-ibaba.png
+41,Rosal,barangay,Cogorin Ilaya,Kgg. Wilson A. Olanda,Punong Barangay,logos/new/cogorin-ilaya.png
+42,Rosal,barangay,Rosario,Kgg. Marc John A. Ocson,Punong Barangay,logos/new/rosario.png
+43,Rosal,barangay,Silang,Kgg. Jordan R. Brosas,Punong Barangay,logos/new/silang.png
+44,Rosal,barangay,San Antonio,Kgg. Edison O. Benedicto,Punong Barangay,logos/new/san-antonio.png
+45,Rosal,barangay,San Francisco A,Kgg. Redym A. Masaga,Punong Barangay,logos/new/san-francisco-a.png
+46,Rosal,barangay,San Francisco B,Kgg. Joedel V. Driz,Punong Barangay,logos/new/san-francisco-b.png
+47,Rosal,barangay,San Miguel Dao,Kgg. Alex P. Dimatulac,Punong Barangay,logos/new/san-miguel-dao.png
+48,Rosal,barangay,Sumalang,Kgg. Pablo M. Edora,Punong Barangay,logos/new/sumalang.png
+49,Sampaguita,barangay,Calantipayan,Kap. Librado V. Baltan,Punong Barangay,logos/new/calantipayan.png
+50,Sampaguita,barangay,Del Pilar,Kap. Dello Jay G. Masaga,Punong Barangay,logos/new/del-pilar.png
+51,Sampaguita,barangay,Guihay,Kap. Crispin R. Monterde Jr.,Punong Barangay,logos/new/guihay.png
+52,Sampaguita,barangay,Jongo,Kap. Luisito L. Revuelta,Punong Barangay,logos/new/jongo.png
+53,Sampaguita,barangay,Mal-ay,Kap. Mario O. Rioveros,Punong Barangay,logos/new/mal-ay.png
+54,Sampaguita,barangay,Manguisian,Kap. Rioday M. Argente,Punong Barangay,logos/new/manguisian.png
+55,Sampaguita,barangay,Pansol,Kap. Rene M. Garcia,Punong Barangay,logos/new/pansol.png
+56,Sampaguita,barangay,Sta. Teresa,Kap. Emmanuel R. Dela Peña,Punong Barangay,logos/new/sta-teresa.png
+57,Sampaguita,barangay,Sugod,Kap. Ernanie M. Grutas,Punong Barangay,logos/new/sugod.png
+58,Sampaguita,barangay,San Jose,Kap. Wilfredo G. Jimena Sr.,Punong Barangay,logos/new/san-jose.png
+59,Sampaguita,barangay,Sta. Lucia,Kap. Felimon A. De Jusay,Punong Barangay,logos/new/sta-lucia.png
 60,Daisy,barangay,Binahian A,Kgg. Leonisa C. Masaga,Punong Barangay,binahian-a.png
 61,Daisy,barangay,Binahian B,Kgg. Emely D. Restum,Punong Barangay,logos/new/binahian-b.png
 62,Daisy,barangay,Binahian C,Kgg. Manuel E. Rosales,Punong Barangay,logos/new/binahian-c.png
