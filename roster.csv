@@ -37,7 +37,7 @@
 36,Molave,barangay,Maguilayan,Kgg. Larry G. Argamosa,Punong Barangay,logos/new/maguilayan.png
 37,Molave,barangay,Mahayod-Hayod,Kgg. Lanie A. Villanueva,Punong Barangay,logos/new/mahayod-hayod.png
 38,Molave,barangay,San Roque,Kgg. Ulpiano V. Lucido,Punong Barangay,logos/new/san-roque.png
-39,Rosal,barangay,Villa Hermosa,Kgg. Benito Alfred T. Arella,Punong Barangay,logos/new/villa-hermosa.png
+39,Rosal,barangay,Villahermosa,Kgg. Benito Alfred T. Arella,Punong Barangay,logos/new/villa-hermosa.png
 40,Rosal,barangay,Cogorin Ibaba,Kgg. Maria Fatima C. Vasquez,Punong Barangay,logos/new/cogorin-ibaba.png
 41,Rosal,barangay,Cogorin Ilaya,Kgg. Wilson A. Olanda,Punong Barangay,logos/new/cogorin-ilaya.png
 42,Rosal,barangay,Rosario,Kgg. Marc John A. Ocson,Punong Barangay,logos/new/rosario.png
@@ -165,29 +165,43 @@
 164,Molave,sector,Farmers,G. Librado Marfil,Pangulo,farmers.png
 165,Sampaguita,sector,Sangguniang Kabataan,Kgg. Jose Faller Jr.,Pangulo,sk.png
 166,Sampaguita,sector,BKAP,Kgd. Santos Mimay,Pangulo,bkap.jpg
-167,Sampaguita,sector,VAWC,Kgd. Philip Pedrezuela,Pangulo,vawc.png
-168,Sampaguita,sector,Treasurer,Kgg. Apolonia Beato,Pangulo,treasurer.jpg
-169,Sampaguita,sector,Secretary,Gng. Luzvimin Azares,Pangulo,secretary.jpg
+167,Sampaguita,sector,VAWC,Kgd. Apolonia Beato,Pangulo,vawc.png
+168,Sampaguita,sector,Treasurer,Gng. Arrajane Andes,Pangulo,treasurer.jpg
+169,Sampaguita,sector,Secretary,Gng. Maria Rose Alama,Pangulo,secretary.jpg
 170,Sampaguita,sector,Child Development Worker,Gng. Mary Rose Alama,Pangulo,dcw.jpg
-171,Sampaguita,sector,Barangay Nutrition Scholar,Gng. Lyslie Ann Alonsagay,Pangulo,bhw.jpg
-172,Sampaguita,sector,Barangay Health Worker,Gng. Maria Fe Mimay,Pangulo,bns.png
-173,Sampaguita,sector,BESU,Gng. Magdalina Severa,Pangulo,besu.png
+171,Sampaguita,sector,Barangay Nutrition Scholar,Gng. Mariafe Mimay,Pangulo,bns.png
+172,Sampaguita,sector,Barangay Health Worker,Gng. Magdalena Severa,Pangulo,bhw.jpg
+173,Sampaguita,sector,BESU,Kgd. Johnver Nullan,Pangulo,besu.png
 174,Sampaguita,sector,Barangay Justice,G. John Ver Nullan,Pangulo,justice.jpg
 175,Sampaguita,sector,Barangay Police,G. Domingo Navales,Pangulo,police.png
-176,Sampaguita,sector,4K,Gng. Durie Doron,Pangulo,4K.jpg
+176,Sampaguita,sector,Peace and Order Council,Kgd. Felipe A. Pedrezuela,Pangulo,poc.png
 177,Sampaguita,sector,Senior Citizens,G. Felis Mancilla,Pangulo,senior.jpg
 178,Sampaguita,sector,Samahan ng Mangingisda,G. Apolinario Torres,Pangulo,mangingisda.png
 179,Rosal,sector,Sangguniang Kabataan,Kgg. Arleza E. Gozo,Pangulo,sk.png
 180,Rosal,sector,BKAP,Kgd. Edgardo An,Pangulo,bkap.jpg
 181,Rosal,sector,Peace and Order Council,Kgd. Nelson Nieva,Pangulo,poc.png
-182,Rosal,sector,VAWC,Kgg. Irish Mernillo,Pangulo,vawc.png
+182,Rosal,sector,VAWC,Kgg. Irish Mernilo,Pangulo,vawc.png
 183,Rosal,sector,Treasurer,Gng. Liza Roxas,Pangulo,treasurer.jpg
 184,Rosal,sector,Secretary,Gng. Annaliza Anacion,Pangulo,secretary.jpg
-185,Rosal,sector,Child Development Worker,Gng. Donabeth Montes,Pangulo,dcw.jpg
-186,Rosal,sector,Barangay Nutrition Scholar,Gng. Lourdes Arleo,Pangulo,bns.png
-187,Rosal,sector,Barangay Health Worker,Gng. Rosalie Escleto,Pangulo,bhw.jpg
+185,Rosal,sector,Child Development Worker,Gng. Marjorie Capucion,Pangulo,dcw.jpg
+186,Rosal,sector,Barangay Nutrition Scholar,Gng. Lourdes Arceo,Pangulo,bns.png
+187,Rosal,sector,Barangay Health Worker,Gng. Rosalia Escleto,Pangulo,bhw.jpg
 188,Rosal,sector,BESU,Kgd. Jomar Hutalla,Pangulo,besu.png
 189,Rosal,sector,Barangay Justice,G. Danilo Targa,Pangulo,justice.jpg
 190,Rosal,sector,Barangay Police,G. Guillermo Masaga,Pangulo,police.png
 191,Rosal,sector,4K,Gng. Rosita Balbaira,Pangulo,4K.jpg
 192,Rosal,sector,Farmers,G. Gregorio Reyes Jr.,Pangulo,farmers.png
+193,Poblacion,sector,Sangguniang Kabataan,Kgg. Haniel Giducos,Pangulo,sk.png
+194,Poblacion,sector,BKAP,Kgd. Rogelio Zurbano,Pangulo,bkap.jpg
+195,Poblacion,sector,VAWC,Gng. Maria Teresa Atregenio,Pangulo,vawc.png
+196,Poblacion,sector,Barangay Treasurer,Gng. Marissa T. Berba,Pangulo,treasurer.jpg
+197,Poblacion,sector,Barangay Secretary,Gng. Aniceta Herrera,Pangulo,secretary.jpg
+198,Poblacion,sector,Child Development Worker,Gng. Maridem P. Argelio,Pangulo,dcw.jpg
+199,Poblacion,sector,Barangay Nutrition Scholar,Gng. Fretzie Satira,Pangulo,bns.png
+200,Poblacion,sector,Barangay Health Worker,Gng. Maria Teresa Atregenio,Pangulo,bhw.jpg
+201,Poblacion,sector,Solo Parents,Gng. Lubequil Argamosa,Pangulo,solo.png
+202,Poblacion,sector,ERPAT-Move,Kgd. Rogelio Zurbano,Pangulo,erpat.png
+203,Poblacion,sector,Barangay Justice,G. Enrique Anacion,Pangulo,justice.jpg
+,Poblacion,sector,Barangay Police,G. Cecilio Francisco,Pangulo,police.png
+,Poblacion,sector,4K,Gng. Lolita A. Punzalan,Pangulo,4K.jpg
+,Poblacion,sector,Senior Citizens,Gng. Leonida Rondario,Pangulo,senior.jpg
