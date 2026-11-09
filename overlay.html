@@ -8,7 +8,8 @@
   ?scene=title             full-screen title card (one layer)
   ?scene=2|3|4&layer=bg    backdrop, goes UNDER camera/slides
   ?scene=2|3|4&layer=fg    frames + names, goes OVER camera/slides
-  2 = Presenter + Presentation, 3 = Presenter Only, 4 = Presentation Only
+  ?scene=5&layer=bg|fg     same layering
+  2 = Presenter + Presentation, 3 = Presenter Only, 4 = Presentation Only, 5 = Camera Only (district name in the header)
 -->
 <style>
 @font-face{font-family:"DA Poppins";src:url("fonts/Poppins-Medium.ttf");font-weight:500}
@@ -136,6 +137,7 @@ const LAYOUT = {
   "2": {slide: [40, 135, 1440, 810], cam: [1520, 465, 360, 480]},
   "3": {cam: [40, 135, 1440, 810]},
   "4": {slide: [40, 135, 1600, 900]},
+  "5": {cam: [40, 135, 1840, 905]},
 };
 
 let state = {
@@ -159,7 +161,7 @@ function headerHTML() {
     ${logoHTML("seal1", 112, 6, 40, 7, 12)}${logoHTML("seal2", 112, 6, 166, 7, 12)}
     <div class="h-line" id="h1" style="top:31px"></div>
     <div class="h-line" id="h2" style="top:64px"></div>
-    <div class="event" id="event"></div>`;
+    <div class="event${SCENE === "5" ? " swap" : ""}" id="event"></div>`;
 }
 
 function backdropHTML() {
@@ -251,6 +253,11 @@ function setLogo(id, src, ph) {
 
 const isBrgy = sp => (sp.kind || "barangay").toLowerCase() === "barangay";
 const muni = st => ((st.settings.header2 || "").replace(/^THE\s+/i, "") || "MUNICIPALITY").toUpperCase();
+// Scene 5 header: "DISTRICT CHAMPACA ASSEMBLY"; falls back to the event title when no district is set.
+const eventTitle = st => {
+  const d = ((st.speaker || {}).district || "").trim().toUpperCase();
+  return SCENE === "5" && d ? `DISTRICT ${d} ASSEMBLY` : st.settings.event_title;
+};
 const districtTag = (sp, st) => sp.district ? "DISTRICT " + sp.district.toUpperCase() : muni(st);
 function labels(sp) {
   const b = isBrgy(sp);
@@ -262,7 +269,7 @@ function labels(sp) {
 /* ---------------- render ---------------- */
 function applySettings(st) {
   const s = st.settings;
-  T("h1", s.header1); T("h2", s.header2); T("event", s.event_title);
+  T("h1", s.header1); T("h2", s.header2); T("event", eventTitle(st));
   setLogo("seal1", "logos/province_seal.png", "PROVINCE\nSEAL");
   setLogo("seal2", "logos/municipal_seal.png", "MUNICIPAL\nSEAL");
 }
@@ -297,11 +304,14 @@ function applySpeaker(st) {
   fitWidth(T("c4-small", lb.small), 20, 12);
   fitBox(T("c4-name", NAME), 34, 18, 170);
   T("c4-person", sp.person); T("c4-role", lb.role);
+
+  if (SCENE === "5") T("event", eventTitle(st));
 }
 
 let lastSpeaker = null, lastSettings = null, first = true, synced = false;
 function onState(st) {
-  const spKey = JSON.stringify(st.speaker), setKey = JSON.stringify(st.settings);
+  // Scene 5 only shows the district, so it animates only when the district changes.
+  const spKey = SCENE === "5" ? (st.speaker || {}).district || "" : JSON.stringify(st.speaker), setKey = JSON.stringify(st.settings);
   if (setKey !== lastSettings) { lastSettings = setKey; applySettings(st); if (!first && spKey === lastSpeaker) applySpeaker(st); }
   if (spKey !== lastSpeaker) {
     lastSpeaker = spKey;

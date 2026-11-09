@@ -4,7 +4,7 @@
 
 Live, editable broadcast graphics for recording the **District Assembly** presentations of 95 barangay captains and sectoral presidents in OBS. Pick a speaker from a control panel inside OBS, and every scene updates instantly with a slide-in animation: names, district, role and logo.
 
-![Scenes](https://img.shields.io/badge/scenes-4-e8262c) ![Barangays](https://img.shields.io/badge/barangays-95-141416) ![Districts](https://img.shields.io/badge/districts-9-b0141a) ![Python](https://img.shields.io/badge/python-standard%20library-3776ab)
+![Scenes](https://img.shields.io/badge/scenes-5-e8262c) ![Barangays](https://img.shields.io/badge/barangays-95-141416) ![Districts](https://img.shields.io/badge/districts-9-b0141a) ![Python](https://img.shields.io/badge/python-standard%20library-3776ab)
 
 ---
 
@@ -71,6 +71,15 @@ Untick **Shutdown source when not visible** and **Refresh browser when scene bec
 | Assembly FG 4 | `http://127.0.0.1:8765/overlay.html?scene=4&layer=fg` |
 | Slides | X `40` · Y `135` · Bounds **Cover** `1600 × 900` · ✅ Crop Bounds |
 | Assembly BG 4 | `http://127.0.0.1:8765/overlay.html?scene=4&layer=bg` |
+
+#### 🎬 Camera Only
+*Big camera only. The header reads **DISTRICT &lt;NAME&gt; ASSEMBLY** for whoever is on air. No barangay or presenter names.*
+
+| Source | Setting |
+|---|---|
+| Assembly FG 5 | `http://127.0.0.1:8765/overlay.html?scene=5&layer=fg` |
+| Camera | X `40` · Y `135` · Bounds **Cover** `1840 × 905` · ✅ Crop Bounds |
+| Assembly BG 5 | `http://127.0.0.1:8765/overlay.html?scene=5&layer=bg` |
 
 > 💡 **Tip:** add Camera and Slides once, then **right-click → Copy** and **Paste (Reference)** in the other scenes.
 

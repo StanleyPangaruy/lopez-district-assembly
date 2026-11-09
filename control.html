@@ -136,7 +136,7 @@ details[open] summary{margin-bottom:10px}
     <summary>Preview &amp; OBS links</summary>
     <div class="tabs" id="tabs">
       <button data-s="title">Title card</button><button data-s="2" class="on">Presenter + Presentation</button>
-      <button data-s="3">Presenter only</button><button data-s="4">Presentation only</button>
+      <button data-s="3">Presenter only</button><button data-s="4">Presentation only</button><button data-s="5">Camera only</button>
     </div>
     <div class="preview" id="preview"><iframe id="pvBg" title="background"></iframe><iframe id="pvFg" title="overlay"></iframe></div>
     <div class="hint">Dark boxes are where your camera and slides go. Add each link below as a Browser Source, 1920 × 1080.</div>
@@ -282,7 +282,8 @@ function buildLinks() {
   const L = [["Title card", "?scene=title"],
     ["Pres+Presentation — BG", "?scene=2&layer=bg"], ["Pres+Presentation — FG", "?scene=2&layer=fg"],
     ["Presenter only — BG", "?scene=3&layer=bg"], ["Presenter only — FG", "?scene=3&layer=fg"],
-    ["Presentation only — BG", "?scene=4&layer=bg"], ["Presentation only — FG", "?scene=4&layer=fg"]];
+    ["Presentation only — BG", "?scene=4&layer=bg"], ["Presentation only — FG", "?scene=4&layer=fg"],
+    ["Camera only — BG", "?scene=5&layer=bg"], ["Camera only — FG", "?scene=5&layer=fg"]];
   for (const [name, q] of L) {
     const d = document.createElement("div"); d.className = "link";
     const s = document.createElement("span"); s.textContent = name;
