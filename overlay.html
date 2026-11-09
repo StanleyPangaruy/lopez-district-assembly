@@ -38,7 +38,7 @@ body>*{position:absolute}
 
 /* ---------- header ---------- */
 .band,.band-dark{left:0;top:22px;width:1920px;height:82px;background:var(--red)}
-.band-dark{background:var(--red-dark);clip-path:polygon(1460px 0,1920px 0,1920px 82px,1420px 82px)}
+.band-dark{background:var(--red-dark);clip-path:polygon(1460px 0,1920px 0,1920px 82px,1420px 82px);transition:clip-path .55s var(--ease)}
 .h-line{left:304px;color:#fff;font-weight:700;font-size:27px;letter-spacing:2px;line-height:33px;white-space:nowrap}
 .event{right:40px;top:22px;height:82px;display:flex;align-items:center;color:#fff;
   font-family:var(--heavy);font-weight:900;font-size:30px;letter-spacing:4px;white-space:nowrap}
@@ -258,6 +258,16 @@ const eventTitle = st => {
   const d = ((st.speaker || {}).district || "").trim().toUpperCase();
   return SCENE === "5" && d ? `DISTRICT ${d} ASSEMBLY` : st.settings.event_title;
 };
+// Widen the dark red header band so it always starts before the event title.
+function fitBand() {
+  const b = document.querySelector(".band-dark"), e = $("event");
+  if (!b || !e) return;
+  const range = document.createRange(); range.selectNodeContents(e);
+  const textLeft = range.getBoundingClientRect().left;
+  const x = Math.round(Math.min(1420, textLeft - 60));       // bottom-left corner of the slant
+  b.style.clipPath = `polygon(${x + 40}px 0,1920px 0,1920px 82px,${x}px 82px)`;
+}
+function setEvent(st) { T("event", eventTitle(st)); fitBand(); }
 const districtTag = (sp, st) => sp.district ? "DISTRICT " + sp.district.toUpperCase() : muni(st);
 function labels(sp) {
   const b = isBrgy(sp);
@@ -269,7 +279,7 @@ function labels(sp) {
 /* ---------------- render ---------------- */
 function applySettings(st) {
   const s = st.settings;
-  T("h1", s.header1); T("h2", s.header2); T("event", eventTitle(st));
+  T("h1", s.header1); T("h2", s.header2); setEvent(st);
   setLogo("seal1", "logos/province_seal.png", "PROVINCE\nSEAL");
   setLogo("seal2", "logos/municipal_seal.png", "MUNICIPAL\nSEAL");
 }
@@ -305,7 +315,7 @@ function applySpeaker(st) {
   fitBox(T("c4-name", NAME), 34, 18, 170);
   T("c4-person", sp.person); T("c4-role", lb.role);
 
-  if (SCENE === "5") T("event", eventTitle(st));
+  if (SCENE === "5") setEvent(st);
 }
 
 let lastSpeaker = null, lastSettings = null, first = true, synced = false;
