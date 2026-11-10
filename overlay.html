@@ -8,8 +8,8 @@
   ?scene=title             full-screen title card (one layer)
   ?scene=2|3|4&layer=bg    backdrop, goes UNDER camera/slides
   ?scene=2|3|4&layer=fg    frames + names, goes OVER camera/slides
-  ?scene=5&layer=bg|fg     same layering
-  2 = Presenter + Presentation, 3 = Presenter Only, 4 = Presentation Only, 5 = Camera Only (district name in the header)
+  ?scene=5|6&layer=bg|fg   same layering
+  2 = Presenter + Presentation, 3 = Presenter Only, 4 = Presentation Only, 5 = Camera Only (full-frame camera, glass pill with the district), 6 = Guest (same, with the guest name + position)
 -->
 <style>
 @font-face{font-family:"DA Poppins";src:url("fonts/Poppins-Medium.ttf");font-weight:500}
@@ -93,6 +93,39 @@ body>*{position:absolute}
 .c4-person{font-weight:700;font-size:22px;line-height:1.3}
 .c4-role{font-weight:500;font-size:17px;color:var(--grey);margin-top:4px}
 
+/* ---------- scene 5: camera only, glass pill ---------- */
+/* OBS can't blur the camera behind a browser source, so the glass is faked:
+   see-through tint + top sheen + bright rim. */
+.cam5{left:0;top:0;width:1920px;height:1080px;background:#111}
+.glass-row{left:0;bottom:56px;width:1920px;display:flex;justify-content:center}
+.glass{height:92px;display:flex;align-items:center;gap:20px;padding:0 44px 0 14px;border-radius:46px;white-space:nowrap;color:#fff;
+  background:linear-gradient(180deg,rgba(255,255,255,.30) 0%,rgba(255,255,255,.12) 48%,rgba(255,255,255,.06) 100%),rgba(28,28,32,.40);
+  border:1.5px solid rgba(255,255,255,.42);
+  box-shadow:inset 0 1.5px 0 rgba(255,255,255,.6),inset 0 -1px 0 rgba(255,255,255,.14),0 14px 44px rgba(0,0,0,.30);
+  -webkit-backdrop-filter:blur(28px) saturate(1.6);backdrop-filter:blur(28px) saturate(1.6)}
+.g-seals{display:flex}
+.g-seals img{width:64px;height:64px;border-radius:50%;background:#fff;object-fit:cover;border:2px solid rgba(255,255,255,.9);
+  box-shadow:0 3px 10px rgba(0,0,0,.25)}
+.g-seals img+img{margin-left:-14px}
+.g-seals img.g-dlogo{display:none}
+.g-seals img.g-dlogo.on{display:block}
+/* recording light: the dot breathes and a ring ripples out from it */
+.g-dot{flex:none;position:relative;width:14px;height:14px;border-radius:50%;background:#ff3b30;
+  box-shadow:0 0 10px 2px rgba(255,59,48,.75);animation:rec-blink 1.6s ease-in-out infinite}
+.g-dot::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid #ff3b30;
+  animation:rec-ring 1.6s ease-out infinite}
+@keyframes rec-blink{0%,100%{opacity:1;box-shadow:0 0 10px 2px rgba(255,59,48,.75)}50%{opacity:.35;box-shadow:0 0 0 0 rgba(255,59,48,0)}}
+@keyframes rec-ring{0%{transform:scale(1);opacity:.9}100%{transform:scale(2.8);opacity:0}}
+.g-text{font-weight:500;font-size:30px;letter-spacing:4px;text-shadow:0 1px 8px rgba(0,0,0,.35)}
+.g-text b{font-weight:700}
+/* scene 6: guest pill, name over position */
+.glass.two{height:auto;min-height:92px;padding:12px 48px 12px 14px;border-radius:60px}
+.g-guest{min-width:0;max-width:1450px;display:flex;flex-direction:column;justify-content:center;text-shadow:0 1px 8px rgba(0,0,0,.35)}
+.g-name{font-weight:700;font-size:34px;line-height:1.15;letter-spacing:2px}
+.g-name span{font-weight:500;margin-right:12px;color:rgba(255,255,255,.85)}
+.g-pos{font-weight:500;font-size:22px;line-height:1.3;letter-spacing:1px;color:rgba(255,255,255,.88)}
+.glass-row.empty{opacity:0}
+
 /* ---------- title card ---------- */
 .photo{left:0;top:0;width:1920px;height:1080px;background:url("assets/lopez_quezon.jpg") 60% 45%/cover no-repeat;
   transform-origin:72% 55%;animation:drift 36s ease-in-out infinite alternate}
@@ -137,7 +170,7 @@ const LAYOUT = {
   "2": {slide: [40, 135, 1440, 810], cam: [1520, 465, 360, 480]},
   "3": {cam: [40, 135, 1440, 810]},
   "4": {slide: [40, 135, 1600, 900]},
-  "5": {cam: [40, 135, 1840, 905]},
+  "5": {cam: [0, 0, 1920, 1080]},   // full frame, no box
 };
 
 let state = {
@@ -161,7 +194,7 @@ function headerHTML() {
     ${logoHTML("seal1", 112, 6, 40, 7, 12)}${logoHTML("seal2", 112, 6, 166, 7, 12)}
     <div class="h-line" id="h1" style="top:31px"></div>
     <div class="h-line" id="h2" style="top:64px"></div>
-    <div class="event${SCENE === "5" ? " swap" : ""}" id="event"></div>`;
+    <div class="event" id="event"></div>`;
 }
 
 function backdropHTML() {
@@ -188,6 +221,16 @@ const colHTML = () => `<div class="col swap" id="col" style="left:1671px;top:362
 
 function build() {
   let h = "";
+  if (SCENE === "5" || SCENE === "6") {
+    // Camera fills the whole frame; the BG layer is only a dark fallback behind it.
+    // 5 = district pill, 6 = guest pill (name + position).
+    const seals = `<div class="g-seals"><img src="logos/province_seal.png" alt="" onerror="this.remove()"><img src="logos/municipal_seal.png" alt="" onerror="this.remove()"><img class="g-dlogo" id="g-dlogo" alt=""></div><span class="g-dot"></span>`;
+    const body = SCENE === "5" ? `<span class="g-text" id="g-text"></span>`
+      : `<div class="g-guest"><div class="g-name fit" id="g-name"></div><div class="g-pos fit" id="g-pos"></div></div>`;
+    h = LAYER === "bg" ? `<div class="cam5"></div>` : `<div class="glass-row swap" id="g-row"><div class="glass${SCENE === "6" ? " two" : ""}">${seals}${body}</div></div>`;
+    document.body.innerHTML = h;
+    return;
+  }
   if (SCENE === "title") {
     h += `<div class="bg"></div><div class="photo"></div><div class="photo-tint"></div><div class="wash"></div><div class="edge"></div><div class="edge2"></div>` + headerHTML();
     h += `<div class="plate"></div>` + logoHTML("logo", 430, 12, 150, 414, 48, true);
@@ -253,11 +296,44 @@ function setLogo(id, src, ph) {
 
 const isBrgy = sp => (sp.kind || "barangay").toLowerCase() === "barangay";
 const muni = st => ((st.settings.header2 || "").replace(/^THE\s+/i, "") || "MUNICIPALITY").toUpperCase();
-// Scene 5 header: "DISTRICT CHAMPACA ASSEMBLY"; falls back to the event title when no district is set.
-const eventTitle = st => {
-  const d = ((st.speaker || {}).district || "").trim().toUpperCase();
-  return SCENE === "5" && d ? `DISTRICT ${d} ASSEMBLY` : st.settings.event_title;
-};
+// Scene 5 district: the control panel's "Camera only" name if set, else the on-air speaker's district.
+const camDistrict = st => ((st.settings || {}).cam_district || (st.speaker || {}).district || "").trim();
+const eventTitle = st => st.settings.event_title;
+// Scene 5 pill: "DISTRICT <b>CHAMPACA</b> ASSEMBLY"; the event title when no district is set.
+// District logo: logos/districts/<name>.png, e.g. "Ilang-Ilang" -> ilang_ilang.png. Hidden if the file is missing.
+function setDistrictLogo(name) {
+  const img = $("g-dlogo"); if (!img) return;
+  const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
+  const src = slug ? "logos/districts/" + slug + ".png" : "";
+  if (img.dataset.src === src) return;
+  img.dataset.src = src;
+  img.classList.remove("on");
+  if (!src) { img.removeAttribute("src"); return; }
+  img.onload = () => img.classList.add("on");
+  img.onerror = () => img.classList.remove("on");
+  img.src = src;
+}
+// Scene 6: "KGG. ATTY. ADRIAN DONALD L. SEGUI" over "Miyembro ng Sangguniang Bayan". Hidden when no guest is on air.
+function setGuest(st) {
+  const n = $("g-name"); if (!n) return;
+  const g = st.guest || {};
+  setDistrictLogo(camDistrict(st));   // same district as the Camera Only pill
+  $("g-row").classList.toggle("empty", !g.name);
+  n.textContent = "";
+  if (g.title) { const t = document.createElement("span"); t.textContent = g.title; n.append(t); }
+  n.append(g.name || "");
+  fitWidth(n, 34, 20);
+  fitWidth(T("g-pos", g.position), 22, 14);
+}
+function setPill(st) {
+  const e = $("g-text"); if (!e) return;
+  setDistrictLogo(camDistrict(st));
+  const d = camDistrict(st).toUpperCase();
+  e.textContent = "";
+  if (!d) { e.textContent = eventTitle(st) || ""; return; }
+  const b = document.createElement("b"); b.textContent = d;
+  e.append("DISTRICT ", b, " ASSEMBLY");
+}
 // Widen the dark red header band so it always starts before the event title.
 function fitBand() {
   const b = document.querySelector(".band-dark"), e = $("event");
@@ -279,7 +355,7 @@ function labels(sp) {
 /* ---------------- render ---------------- */
 function applySettings(st) {
   const s = st.settings;
-  T("h1", s.header1); T("h2", s.header2); setEvent(st);
+  T("h1", s.header1); T("h2", s.header2); setEvent(st); setPill(st);
   setLogo("seal1", "logos/province_seal.png", "PROVINCE\nSEAL");
   setLogo("seal2", "logos/municipal_seal.png", "MUNICIPAL\nSEAL");
 }
@@ -315,13 +391,16 @@ function applySpeaker(st) {
   fitBox(T("c4-name", NAME), 34, 18, 170);
   T("c4-person", sp.person); T("c4-role", lb.role);
 
-  if (SCENE === "5") setEvent(st);
+  setPill(st); setGuest(st);
 }
 
 let lastSpeaker = null, lastSettings = null, first = true, synced = false;
 function onState(st) {
-  // Scene 5 only shows the district, so it animates only when the district changes.
-  const spKey = SCENE === "5" ? (st.speaker || {}).district || "" : JSON.stringify(st.speaker), setKey = JSON.stringify(st.settings);
+  // Scene 5 only shows the district, so it animates only when that district changes
+  // (cam_district is handled there too, so it fades like a speaker change).
+  // Scene 6 follows the on-air guest (and the district, for its logo) instead of the speaker.
+  const spKey = SCENE === "5" ? camDistrict(st) : SCENE === "6" ? JSON.stringify([st.guest || {}, camDistrict(st)]) : JSON.stringify(st.speaker);
+  const setKey = JSON.stringify({...st.settings, cam_district: undefined});
   if (setKey !== lastSettings) { lastSettings = setKey; applySettings(st); if (!first && spKey === lastSpeaker) applySpeaker(st); }
   if (spKey !== lastSpeaker) {
     lastSpeaker = spKey;

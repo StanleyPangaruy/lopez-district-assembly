@@ -26,6 +26,8 @@ PORT = int(os.environ.get("DA_PORT", "8765"))
 ROSTER = HERE / "roster.csv"
 STATE_FILE = HERE / "state.json"
 FIELDS = ["order", "district", "kind", "name", "person", "role", "logo"]
+GUESTS = HERE / "guests.csv"
+GUEST_FIELDS = ["order", "title", "name", "position"]
 
 DEFAULT_SETTINGS = {
     "event_title": "DISTRICT ASSEMBLY",
@@ -39,6 +41,7 @@ DEFAULT_STATE = {
     "speaker": {"kind": "barangay", "district": "Poblacion", "name": "Gomez",
                 "person": "Kap. Juan Dela Cruz", "role": "Punong Barangay", "logo": "", "index": 0},
     "settings": dict(DEFAULT_SETTINGS),
+    "guest": {"title": "", "name": "", "position": "", "index": -1},
 }
 
 lock = threading.Lock()
@@ -53,6 +56,7 @@ def load_state():
     s.setdefault("version", 1)
     s.setdefault("show_lt", True)
     s.setdefault("speaker", dict(DEFAULT_STATE["speaker"]))
+    s.setdefault("guest", dict(DEFAULT_STATE["guest"]))
     s["settings"] = {**DEFAULT_SETTINGS, **(s.get("settings") or {})}
     return s
 
@@ -88,6 +92,18 @@ def read_roster():
         row = {f: r.get(f, "") for f in FIELDS}
         row["kind"] = (row["kind"] or "barangay").lower()
         rows.append(row)
+    return rows
+
+
+def read_guests():
+    """Guest list for the Guest camera overlay (scene 6)."""
+    if not GUESTS.exists():
+        return []
+    rows = []
+    for r in csv.DictReader(_read_text(GUESTS).splitlines()):
+        r = {(k or "").strip().lower(): (v or "").strip() for k, v in r.items()}
+        if r.get("name"):
+            rows.append({f: r.get(f, "") for f in GUEST_FIELDS})
     return rows
 
 
@@ -144,6 +160,11 @@ class Handler(SimpleHTTPRequestHandler):
                 return self._json(read_roster())
             except Exception as e:
                 return self._json({"error": str(e)}, 500)
+        elif path == "/api/guests":
+            try:
+                return self._json(read_guests())
+            except Exception as e:
+                return self._json({"error": str(e)}, 500)
         return super().do_GET()
 
     def do_POST(self):
@@ -158,6 +179,8 @@ class Handler(SimpleHTTPRequestHandler):
             with lock:
                 if isinstance(data.get("speaker"), dict):
                     state["speaker"] = data["speaker"]
+                if isinstance(data.get("guest"), dict):
+                    state["guest"] = data["guest"]
                 if "show_lt" in data:
                     state["show_lt"] = bool(data["show_lt"])
                 if isinstance(data.get("settings"), dict):

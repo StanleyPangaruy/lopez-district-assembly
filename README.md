@@ -4,7 +4,7 @@
 
 Live, editable broadcast graphics for recording the **District Assembly** presentations of 95 barangay captains and sectoral presidents in OBS. Pick a speaker from a control panel inside OBS, and every scene updates instantly with a slide-in animation: names, district, role and logo.
 
-![Scenes](https://img.shields.io/badge/scenes-5-e8262c) ![Barangays](https://img.shields.io/badge/barangays-95-141416) ![Districts](https://img.shields.io/badge/districts-9-b0141a) ![Python](https://img.shields.io/badge/python-standard%20library-3776ab)
+![Scenes](https://img.shields.io/badge/scenes-6-e8262c) ![Barangays](https://img.shields.io/badge/barangays-95-141416) ![Districts](https://img.shields.io/badge/districts-9-b0141a) ![Python](https://img.shields.io/badge/python-standard%20library-3776ab)
 
 ---
 
@@ -17,6 +17,7 @@ Live, editable broadcast graphics for recording the **District Assembly** presen
 | `control.html` | Control panel: pick who's on air, fix typos, change the event title. |
 | `overlay.html` | The graphics OBS shows as Browser Sources. |
 | `roster.csv` | Speaker list. Edit in Excel or Notepad. |
+| `guests.csv` | Guest list for the Guest overlay (title, name, position). |
 | `logos/` | Seals + all 95 barangay logos. |
 | `fonts/` | Poppins + Inter, bundled so it works offline. |
 | `push_to_github.bat` | Uploads your changes to GitHub. |
@@ -73,13 +74,21 @@ Untick **Shutdown source when not visible** and **Refresh browser when scene bec
 | Assembly BG 4 | `http://127.0.0.1:8765/overlay.html?scene=4&layer=bg` |
 
 #### 🎬 Camera Only
-*Big camera only. The header reads **DISTRICT &lt;NAME&gt; ASSEMBLY** for whoever is on air. No barangay or presenter names.*
+*Full-screen camera with a floating glass pill at the bottom centre reading **DISTRICT &lt;NAME&gt; ASSEMBLY** for whoever is on air, or the name you type under **Camera only overlay** in the control panel. No header, no barangay or presenter names.*
 
 | Source | Setting |
 |---|---|
 | Assembly FG 5 | `http://127.0.0.1:8765/overlay.html?scene=5&layer=fg` |
-| Camera | X `40` · Y `135` · Bounds **Cover** `1840 × 905` · ✅ Crop Bounds |
-| Assembly BG 5 | `http://127.0.0.1:8765/overlay.html?scene=5&layer=bg` |
+| Camera | Full screen: right-click → **Transform → Fit to screen** (or X `0` · Y `0` · Bounds **Cover** `1920 × 1080` · ✅ Crop Bounds) |
+| Assembly BG 5 *(optional)* | `http://127.0.0.1:8765/overlay.html?scene=5&layer=bg` (plain dark fill, only shows if the camera drops out) |
+
+#### 🎬 Guest
+*Same full-screen camera and glass pill, showing the guest's title + name over their position. The district logo follows the same district as the Camera Only pill. Pick the guest under **Guests** in the control panel; **Hide guest** hides the pill.*
+
+| Source | Setting |
+|---|---|
+| Assembly FG 6 | `http://127.0.0.1:8765/overlay.html?scene=6&layer=fg` |
+| Camera | Full screen: right-click → **Transform → Fit to screen** |
 
 > 💡 **Tip:** add Camera and Slides once, then **right-click → Copy** and **Paste (Reference)** in the other scenes.
 
@@ -90,9 +99,21 @@ Untick **Shutdown source when not visible** and **Refresh browser when scene bec
 - **Double-click a name** in the roster, or press **Next speaker ▶**. All scenes switch at once.
 - **Typo?** Click the row, fix the text, press **PUT ON AIR**. **Save to roster** makes it permanent.
 - **Lower third** switch hides or shows the name bar.
+- **Camera only overlay** lets you type any district name for the Camera Only header. **Follow speaker** goes back to the on-air speaker's district.
 - **Event settings** changes "DISTRICT ASSEMBLY" and the header lines.
 
 ---
+
+## 🎤 Guests (`guests.csv`)
+
+| Column | Meaning |
+|---|---|
+| `order` | Position in the list |
+| `title` | e.g. `KGG.`, `KGG. ATTY.`, `PLTCOL.` (shown lighter, before the name) |
+| `name` | e.g. `ADRIAN DONALD L. SEGUI` |
+| `position` | e.g. `Miyembro ng Sangguniang Bayan` |
+
+After editing, save as **CSV** and press **↻** in the Guests box.
 
 ## 📋 Roster (`roster.csv`)
 
@@ -134,6 +155,7 @@ After editing in Excel, save as **CSV**, then press **↻** in the control panel
 | `logos/province_seal.png` | Province of Quezon seal (header) |
 | `logos/municipal_seal.png` | Municipality of Lopez seal (header) |
 | `logos/<name>.png` | Barangay / sector logos named in `roster.csv` |
+| `logos/districts/<district>.png` | District logo for the Camera Only pill, e.g. `ilang_ilang.png` for Ilang-Ilang (lowercase, spaces and dashes become `_`) |
 
 Square PNGs work best (about 600 px). Missing logos show a grey placeholder.
 

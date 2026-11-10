@@ -122,6 +122,38 @@ details[open] summary{margin-bottom:10px}
     <div class="msg" id="msg"></div>
   </section>
 
+  <section>
+    <h3>Camera only overlay</h3>
+    <label for="camDistrict">District name in the glass pill (blank = follow the speaker on air)</label>
+    <div class="row">
+      <input id="camDistrict" class="grow" list="districtList" placeholder="e.g. Champaca">
+      <button id="camApply" class="primary">Apply</button>
+      <button id="camFollow" title="Go back to showing the on-air speaker's district">Follow speaker</button>
+    </div>
+    <datalist id="districtList"></datalist>
+    <div class="hint" id="camNow"></div>
+  </section>
+
+  <section>
+    <h3>Guests <span style="text-transform:none;letter-spacing:0">(Guest camera overlay)</span></h3>
+    <div class="row">
+      <input id="gSearch" class="grow" placeholder="Search guest name or position…">
+      <button id="gReload" title="Reload guests.csv after editing it">↻</button>
+    </div>
+    <div class="list" id="gList" style="max-height:260px"><div class="empty">Loading…</div></div>
+    <div class="hint">Click a guest to fill the boxes below · double-click to show them on air.</div>
+    <div class="grid" style="margin-top:10px">
+      <div><label for="gTitle">Title (e.g. KGG. ATTY.)</label><input id="gTitle"></div>
+      <div><label for="gName">Name</label><input id="gName"></div>
+      <div class="full"><label for="gPos">Position</label><input id="gPos"></div>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <button id="gTake" class="primary grow">SHOW GUEST</button>
+      <button id="gClear" title="Hide the guest pill">Hide guest</button>
+    </div>
+    <div class="hint" id="gNow"></div>
+  </section>
+
   <details>
     <summary>Event settings</summary>
     <div class="grid">
@@ -136,7 +168,7 @@ details[open] summary{margin-bottom:10px}
     <summary>Preview &amp; OBS links</summary>
     <div class="tabs" id="tabs">
       <button data-s="title">Title card</button><button data-s="2" class="on">Presenter + Presentation</button>
-      <button data-s="3">Presenter only</button><button data-s="4">Presentation only</button><button data-s="5">Camera only</button>
+      <button data-s="3">Presenter only</button><button data-s="4">Presentation only</button><button data-s="5">Camera only</button><button data-s="6">Guest</button>
     </div>
     <div class="preview" id="preview"><iframe id="pvBg" title="background"></iframe><iframe id="pvFg" title="overlay"></iframe></div>
     <div class="hint">Dark boxes are where your camera and slides go. Add each link below as a Browser Source, 1920 × 1080.</div>
@@ -170,6 +202,8 @@ async function loadRoster() {
   sel.length = 1;
   for (const d of [...new Set(roster.map(distOf))]) sel.add(new Option(d.startsWith("(") ? d : "District " + d, d));
   sel.value = [...sel.options].some(o => o.value === cur) ? cur : "";
+  $("districtList").innerHTML = "";
+  for (const d of [...new Set(roster.map(r => r.district).filter(Boolean))]) $("districtList").appendChild(new Option(d));
   renderList();
 }
 
@@ -244,10 +278,16 @@ function renderLive() {
   const bar = $("liveBar");
   if (!state) { bar.classList.add("offline"); $("liveSub").textContent = "Server not running — start it with start.bat"; return; }
   bar.classList.remove("offline");
+  renderGuestNow();
   const sp = state.speaker || {};
   $("liveName").textContent = (isBrgy(sp) ? "Brgy. " : "") + (sp.name || "—");
   $("liveSub").textContent = [sp.person, defRole(sp), sp.district ? "District " + sp.district : "Municipal"].filter(Boolean).join(" · ");
   $("showLt").checked = state.show_lt !== false;
+  const cd = ((state.settings || {}).cam_district || "").trim();
+  const shown = cd || sp.district || "";
+  $("camNow").textContent = "Now showing: " + (shown ? "DISTRICT " + shown.toUpperCase() + " ASSEMBLY" : (state.settings || {}).event_title || "")
+    + (cd ? "  (set by hand)" : "  (following the speaker)");
+  if (document.activeElement !== $("camDistrict")) $("camDistrict").value = cd;
   if (!settingsLoaded) {
     const s = state.settings || {};
     $("sEvent").value = s.event_title || ""; $("sH1").value = s.header1 || ""; $("sH2").value = s.header2 || "";
@@ -259,7 +299,7 @@ async function pollState() {
   try {
     const st = await api("/api/state");
     const changed = !state || st.version !== state.version;
-    state = st; if (changed) { renderLive(); renderList(); }
+    state = st; if (changed) { renderLive(); renderList(); renderGuests(); }
   } catch (e) { state = null; renderLive(); }
   setTimeout(pollState, 1000);
 }
@@ -283,7 +323,8 @@ function buildLinks() {
     ["Pres+Presentation — BG", "?scene=2&layer=bg"], ["Pres+Presentation — FG", "?scene=2&layer=fg"],
     ["Presenter only — BG", "?scene=3&layer=bg"], ["Presenter only — FG", "?scene=3&layer=fg"],
     ["Presentation only — BG", "?scene=4&layer=bg"], ["Presentation only — FG", "?scene=4&layer=fg"],
-    ["Camera only — BG", "?scene=5&layer=bg"], ["Camera only — FG", "?scene=5&layer=fg"]];
+    ["Camera only — BG", "?scene=5&layer=bg"], ["Camera only — FG", "?scene=5&layer=fg"],
+    ["Guest — BG", "?scene=6&layer=bg"], ["Guest — FG", "?scene=6&layer=fg"]];
   for (const [name, q] of L) {
     const d = document.createElement("div"); d.className = "link";
     const s = document.createElement("span"); s.textContent = name;
@@ -303,6 +344,13 @@ $("reload").onclick = loadRoster;
 $("search").oninput = renderList;
 $("fDistrict").onchange = renderList;
 $("showLt").onchange = async e => { try { state = await api("/api/state", {show_lt: e.target.checked}); } catch (err) { msg(err.message, true); } };
+async function setCamDistrict(v) {
+  try { state = await api("/api/state", {settings: {cam_district: v}}); $("camDistrict").value = v; renderLive(); msg(v ? "Camera only: District " + v : "Camera only follows the speaker"); }
+  catch (e) { msg(e.message, true); }
+}
+$("camApply").onclick = () => setCamDistrict($("camDistrict").value.trim());
+$("camFollow").onclick = () => setCamDistrict("");
+$("camDistrict").addEventListener("keydown", e => { if (e.key === "Enter") $("camApply").click(); });
 $("saveSettings").onclick = async () => {
   try {
     state = await api("/api/state", {settings: {event_title: $("sEvent").value.trim(), header1: $("sH1").value.trim(),
@@ -316,7 +364,59 @@ $("prevBox").addEventListener("toggle", () => { if ($("prevBox").open) setPrevie
 new ResizeObserver(scalePreview).observe($("preview"));
 
 buildLinks();
+/* ---------- guests (scene 6) ---------- */
+let guests = [], gSel = -1;
+async function loadGuests() {
+  try { const d = await api("/api/guests"); guests = Array.isArray(d) ? d : []; }
+  catch (e) { guests = []; msg("Could not read guests.csv: " + e.message + " (restart start.bat if you just updated)", true); }
+  renderGuests();
+}
+function renderGuests() {
+  const list = $("gList"), q = $("gSearch").value.trim().toLowerCase();
+  const liveIdx = state && state.guest && state.guest.name ? state.guest.index : -1;
+  list.innerHTML = "";
+  const rows = guests.map((g, i) => ({g, i})).filter(({g}) => !q || [g.title, g.name, g.position].join(" ").toLowerCase().includes(q));
+  if (!rows.length) { list.innerHTML = '<div class="empty">No guests. Add them to guests.csv, then press ↻.</div>'; return; }
+  for (const {g, i} of rows) {
+    const it = document.createElement("div");
+    it.className = "item" + (i === gSel ? " sel" : "") + (i === liveIdx ? " is-live" : "");
+    const who = document.createElement("div"); who.className = "who";
+    const b = document.createElement("b"); b.textContent = [g.title, g.name].filter(Boolean).join(" ");
+    const sp = document.createElement("span"); sp.textContent = g.position;
+    who.append(b, sp);
+    it.append(who);
+    if (i === liveIdx) { const badge = document.createElement("span"); badge.className = "badge live"; badge.textContent = "ON AIR"; it.append(badge); }
+    it.onclick = () => selectGuest(i);
+    it.ondblclick = () => { selectGuest(i); showGuest(); };
+    list.appendChild(it);
+  }
+}
+function selectGuest(i) {
+  gSel = i; const g = guests[i] || {};
+  $("gTitle").value = g.title || ""; $("gName").value = g.name || ""; $("gPos").value = g.position || "";
+  renderGuests();
+}
+async function sendGuest(g) {
+  try { state = await api("/api/state", {guest: g}); renderLive(); renderGuests(); }
+  catch (e) { msg("Server not reachable: " + e.message, true); }
+}
+function showGuest() {
+  const g = {title: $("gTitle").value.trim(), name: $("gName").value.trim(), position: $("gPos").value.trim(), index: gSel};
+  if (!g.name) return msg("Pick a guest or type a name first.", true);
+  sendGuest(g);
+}
+function renderGuestNow() {
+  const g = (state && state.guest) || {};
+  $("gNow").textContent = g.name ? "On air: " + [g.title, g.name].filter(Boolean).join(" ") + (g.position ? " — " + g.position : "") : "No guest on air (pill hidden).";
+}
+$("gTake").onclick = showGuest;
+$("gClear").onclick = () => sendGuest({title: "", name: "", position: "", index: -1});
+$("gReload").onclick = loadGuests;
+$("gSearch").oninput = renderGuests;
+for (const id of ["gTitle", "gName", "gPos"]) $(id).addEventListener("keydown", e => { if (e.key === "Enter") showGuest(); });
+
 loadRoster();
+loadGuests();
 pollState();
 </script>
 </body>
