@@ -130,18 +130,16 @@ body>*{position:absolute}
 .glass.wave{position:relative;overflow:hidden;padding-bottom:24px;border-color:rgba(190,240,250,.55);
   background:linear-gradient(180deg,rgba(255,255,255,.26) 0%,rgba(255,255,255,.08) 50%,rgba(255,255,255,.03) 100%),rgba(11,57,84,.52)}
 .glass.wave>*:not(.g-wave):not(.g-boat){position:relative;z-index:1}
-/* fisherman sailing a bangka across the wave, from left to right, behind the text */
+/* fisherman paddling a bangka across the wave, from left to right, behind the text */
 .g-boat{display:none}
-.glass.wave .g-boat{display:block;position:absolute;bottom:-4px;left:-100px;width:90px;height:75px;pointer-events:none;
+.glass.wave .g-boat{display:block;position:absolute;bottom:-4px;left:-120px;width:105px;height:75px;pointer-events:none;
   animation:sail 30s linear infinite}
 .g-boat svg{display:block;width:100%;height:100%;overflow:visible}
-.g-boat .hull{transform-box:view-box;transform-origin:60px 80px;animation:boat-bob 3.4s ease-in-out infinite}
-.g-boat .sail{transform-box:view-box;transform-origin:60px 60px;animation:sail-flutter 2.6s ease-in-out infinite}
-.g-boat .paddle{transform-box:view-box;transform-origin:22px 52px;animation:paddle 1.8s ease-in-out infinite}
+.g-boat .hull{transform-box:view-box;transform-origin:70px 80px;animation:boat-bob 3.4s ease-in-out infinite}
+.g-boat .paddle{transform-box:view-box;transform-origin:26px 50px;animation:paddle 1.8s ease-in-out infinite}
 .g-boat .wake{animation:wake 1.2s ease-in-out infinite}
-@keyframes sail{from{left:-100px}to{left:calc(100% + 10px)}}
+@keyframes sail{from{left:-120px}to{left:calc(100% + 10px)}}
 @keyframes boat-bob{0%,100%{transform:translateY(0) rotate(-2.5deg)}50%{transform:translateY(2.5px) rotate(2.5deg)}}
-@keyframes sail-flutter{50%{transform:scaleX(.93) skewY(-2deg)}}
 @keyframes paddle{0%,100%{transform:rotate(-14deg)}50%{transform:rotate(16deg)}}
 @keyframes wake{0%,100%{opacity:.85;transform:translateX(0)}50%{opacity:.35;transform:translateX(-4px)}}
 .glass.wave:not(.two){height:106px;padding-bottom:18px}
@@ -464,26 +462,29 @@ async function poll() {
 }
 
 /* ---------------- jumping fish (wave style) ---------------- */
-// Fisherman sailing a bangka (outrigger boat) to the right: striped sail, salakot hat, paddle at the stern.
-// Waterline is y=80.
-const BOAT_SVG = `<svg viewBox="0 0 120 100">
-  <path class="wake" d="M6 80 L-16 78 M4 83 L-20 85 M2 78.5 L-8 75" stroke="#fff" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+// Fisherman paddling a Filipino bangka to the right: blue/white/red hull with a green pinstripe,
+// upswept bow and stern, blue arched outrigger arms and bamboo floats with orange tips. Waterline is y=80.
+const BOAT_SVG = `<svg viewBox="0 0 140 100">
+  <path class="wake" d="M8 80 L-14 78 M6 83 L-18 85 M4 78.5 L-6 75" stroke="#fff" stroke-width="1.6" stroke-linecap="round" fill="none"/>
   <g class="hull">
-  <path d="M34 70 L30 79 M88 70 L92 79" stroke="#5b3a22" stroke-width="2.2" stroke-linecap="round"/>
-  <rect x="14" y="77" width="92" height="4.5" rx="2.2" fill="#d6b468" stroke="#8a6a2e" stroke-width=".8"/>
-  <path d="M58 66 L58 8" stroke="#4a2c18" stroke-width="2.4" stroke-linecap="round"/>
-  <g class="sail"><path d="M60 10 L60 60 L98 60Z" fill="#f7f3ea" stroke="#8a6a2e" stroke-width=".8" stroke-linejoin="round"/>
-    <path d="M60 26 L72.2 26 L78.2 34 L60 34Z" fill="#e8262c"/><path d="M60 44 L85.8 44 L91.9 52 L60 52Z" fill="#f2c14e"/></g>
-  <path d="M8 66 L112 66 Q106 80 88 82 L32 82 Q14 80 8 66Z" fill="#7a4a2a" stroke="#4a2c18" stroke-width="1"/>
-  <path d="M112 66 L119 57 M8 66 L3 58" stroke="#7a4a2a" stroke-width="4" stroke-linecap="round"/>
-  <path d="M12 69.5 L108 69.5" stroke="#f2e3c6" stroke-width="2.4"/>
-  <path d="M24 66 L24 60 Q32 57 40 60 L40 66Z" fill="#23395b"/>
-  <path d="M27 60 Q26 47 32 45 Q38 47 37 60Z" fill="#2f6fb0"/>
-  <circle cx="32" cy="40" r="5" fill="#b9784a"/>
-  <path d="M19 39 L32 28 L45 39 Q32 42.5 19 39Z" fill="#e2bf6e" stroke="#8a6a2e" stroke-width="1"/>
-  <g class="paddle"><path d="M30 50 L22 54" stroke="#b9784a" stroke-width="3.2" stroke-linecap="round"/>
-    <path d="M24 46 L14 88" stroke="#5b3a22" stroke-width="2.2" stroke-linecap="round"/>
-    <ellipse cx="13.5" cy="89" rx="3" ry="6" fill="#5b3a22" transform="rotate(13 13.5 89)"/></g>
+  <defs><clipPath id="bangka-hull"><path d="M6 54 Q18 62 34 62 L108 62 Q124 61 137 48 Q132 66 116 76 Q104 82 88 82 L44 82 Q22 81 12 70 Q8 63 6 54Z"/></clipPath></defs>
+  <path d="M4 78 L136 78" stroke="#d9a45a" stroke-width="3.6" stroke-linecap="round"/>
+  <path d="M4 78 L13 78 M127 78 L136 78" stroke="#e8552c" stroke-width="4" stroke-linecap="round"/>
+  <g clip-path="url(#bangka-hull)">
+    <rect x="0" y="40" width="140" height="26" fill="#1f78c8"/><rect x="0" y="65.2" width="140" height="1.3" fill="#3cc06b"/>
+    <rect x="0" y="66.5" width="140" height="4.8" fill="#f4f4f2"/><rect x="0" y="71.3" width="140" height="15" fill="#b3202a"/></g>
+  <path d="M6 54 Q18 62 34 62 L108 62 Q124 61 137 48 Q132 66 116 76 Q104 82 88 82 L44 82 Q22 81 12 70 Q8 63 6 54Z" fill="none" stroke="#0b2a40" stroke-opacity=".55" stroke-width=".9"/>
+  <path d="M30 61 Q26 40 10 79 M112 61 Q116 40 130 79 M58 61 Q56 46 46 79 M86 61 Q88 46 98 79" stroke="#2f8fd0" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+  <path d="M20 51 Q70 45 120 51" stroke="#2f8fd0" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  <path d="M28 62 L28 56 Q36 53 44 56 L44 62Z" fill="#23395b"/>
+  <path d="M31 56 Q30 43 36 41 Q42 43 41 56Z" fill="#f2c14e"/>
+  <circle cx="36" cy="36" r="5" fill="#b9784a"/>
+  <path d="M23 35 L36 24 L49 35 Q36 38.5 23 35Z" fill="#e2bf6e" stroke="#8a6a2e" stroke-width="1"/>
+  <g class="paddle"><path d="M34 46 L26 50" stroke="#b9784a" stroke-width="3.2" stroke-linecap="round"/>
+    <path d="M28 42 L18 86" stroke="#5b3a22" stroke-width="2.2" stroke-linecap="round"/>
+    <ellipse cx="17.5" cy="87" rx="3" ry="6" fill="#5b3a22" transform="rotate(13 17.5 87)"/></g>
+  <path d="M2 82.5 L138 82.5" stroke="#d9a45a" stroke-width="4" stroke-linecap="round"/>
+  <path d="M2 82.5 L12 82.5 M128 82.5 L138 82.5" stroke="#e8552c" stroke-width="4.4" stroke-linecap="round"/>
 </g></svg>`;
 const FISH_SVG = `<svg viewBox="0 0 40 20" width="60" height="30"><path d="M38 10 Q28 1 14 6 L2 1 L6 10 L2 19 L14 14 Q28 19 38 10Z" fill="#7fe3ee" stroke="#0b3954" stroke-width="1.3" stroke-linejoin="round"/>
   <path d="M38 10 Q28 15 14 13" stroke="#0f8b8d" stroke-opacity=".5" fill="none" stroke-width="1.5"/>
