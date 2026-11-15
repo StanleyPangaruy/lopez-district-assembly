@@ -130,6 +130,7 @@ body>*{position:absolute}
 .glass.wave{position:relative;overflow:hidden;padding-bottom:24px;border-color:rgba(190,240,250,.55);
   background:linear-gradient(180deg,rgba(255,255,255,.26) 0%,rgba(255,255,255,.08) 50%,rgba(255,255,255,.03) 100%),rgba(11,57,84,.52)}
 .glass.wave>*:not(.g-wave){position:relative;z-index:1}
+.glass.wave:not(.two){height:106px;padding-bottom:18px}
 .glass.wave .g-wave{display:block;position:absolute;left:0;right:0;bottom:0;pointer-events:none;background-repeat:repeat-x}
 .glass.wave .g-wave.back{height:22px;background-size:180px 22px;animation:wave-l 9s linear infinite;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='16' viewBox='0 0 120 16' preserveAspectRatio='none'%3E%3Cpath d='M0 8 Q30 0 60 8 T120 8 V16 H0Z' fill='%230f8b8d' fill-opacity='.55'/%3E%3C/svg%3E")}
@@ -239,7 +240,7 @@ function build() {
     const seals = `<div class="g-seals"><img src="logos/province_seal.png" alt="" onerror="this.remove()"><img src="logos/municipal_seal.png" alt="" onerror="this.remove()"><img class="g-dlogo" id="g-dlogo" alt=""></div><span class="g-dot"></span>`;
     const body = SCENE === "5" ? `<span class="g-text" id="g-text"></span>`
       : `<div class="g-guest"><div class="g-name fit" id="g-name"></div><div class="g-pos fit" id="g-pos"></div></div>`;
-    h = LAYER === "bg" ? `<div class="cam5"></div>` : `<div class="glass-row swap" id="g-row"><div class="glass${SCENE === "6" ? " two" : ""}" id="glass">${seals}${body}${SCENE === "6" ? `<i class="g-wave back"></i><i class="g-wave front"></i>` : ""}</div></div>`;
+    h = LAYER === "bg" ? `<div class="cam5"></div>` : `<div class="glass-row swap" id="g-row"><div class="glass${SCENE === "6" ? " two" : ""}" id="glass">${seals}${body}<i class="g-wave back"></i><i class="g-wave front"></i></div></div>`;
     document.body.innerHTML = h;
     return;
   }
@@ -311,7 +312,7 @@ const muni = st => ((st.settings.header2 || "").replace(/^THE\s+/i, "") || "MUNI
 // Scene 5 district: the control panel's "Camera only" name if set, else the on-air speaker's district.
 const camDistrict = st => ((st.settings || {}).cam_district || (st.speaker || {}).district || "").trim();
 const eventTitle = st => st.settings.event_title;
-// Scene 5 pill: "DISTRICT <b>CHAMPACA</b> ASSEMBLY"; the event title when no district is set.
+// Scene 5 pill: "<b>MAGNOLIA</b> DISTRICT ASSEMBLY"; the event title when no district is set.
 // District logo: logos/districts/<name>.png, e.g. "Ilang-Ilang" -> ilang_ilang.png. Hidden if the file is missing.
 function setDistrictLogo(name) {
   const img = $("g-dlogo"); if (!img) return;
@@ -344,7 +345,7 @@ function setPill(st) {
   e.textContent = "";
   if (!d) { e.textContent = eventTitle(st) || ""; return; }
   const b = document.createElement("b"); b.textContent = d;
-  e.append("DISTRICT ", b, " ASSEMBLY");
+  e.append(b, " DISTRICT ASSEMBLY");
 }
 // Widen the dark red header band so it always starts before the event title.
 function fitBand() {
@@ -369,7 +370,8 @@ function applySettings(st) {
   const s = st.settings;
   T("h1", s.header1); T("h2", s.header2); setEvent(st); setPill(st);
   // Guest pill style, chosen in the control panel: "glass" (default) or "wave".
-  if (SCENE === "6" && $("glass")) $("glass").classList.toggle("wave", s.guest_style === "wave");
+  // Pill style for both camera pills (scenes 5 and 6): "glass" (default) or "wave". Stored as guest_style.
+  if ($("glass")) $("glass").classList.toggle("wave", s.guest_style === "wave");
   setLogo("seal1", "logos/province_seal.png", "PROVINCE\nSEAL");
   setLogo("seal2", "logos/municipal_seal.png", "MUNICIPAL\nSEAL");
 }

@@ -132,6 +132,13 @@ details[open] summary{margin-bottom:10px}
     </div>
     <datalist id="districtList"></datalist>
     <div class="hint" id="camNow"></div>
+    <div class="row" style="margin-top:10px">
+      <label for="gStyle" style="margin:0;white-space:nowrap">Pill style (district + guest)</label>
+      <select id="gStyle" class="grow">
+        <option value="glass">Glass (default)</option>
+        <option value="wave">Coastal wave (e.g. District Magnolia)</option>
+      </select>
+    </div>
   </section>
 
   <section>
@@ -152,13 +159,6 @@ details[open] summary{margin-bottom:10px}
       <button id="gClear" title="Hide the guest pill">Hide guest</button>
     </div>
     <div class="hint" id="gNow"></div>
-    <div class="row" style="margin-top:10px">
-      <label for="gStyle" style="margin:0;white-space:nowrap">Pill style</label>
-      <select id="gStyle" class="grow">
-        <option value="glass">Glass (default)</option>
-        <option value="wave">Coastal wave (e.g. District Magnolia)</option>
-      </select>
-    </div>
   </section>
 
   <details>
@@ -292,7 +292,7 @@ function renderLive() {
   $("showLt").checked = state.show_lt !== false;
   const cd = ((state.settings || {}).cam_district || "").trim();
   const shown = cd || sp.district || "";
-  $("camNow").textContent = "Now showing: " + (shown ? "DISTRICT " + shown.toUpperCase() + " ASSEMBLY" : (state.settings || {}).event_title || "")
+  $("camNow").textContent = "Now showing: " + (shown ? shown.toUpperCase() + " DISTRICT ASSEMBLY" : (state.settings || {}).event_title || "")
     + (cd ? "  (set by hand)" : "  (following the speaker)");
   if (document.activeElement !== $("camDistrict")) $("camDistrict").value = cd;
   if (!settingsLoaded) {
@@ -421,7 +421,7 @@ $("gTake").onclick = showGuest;
 $("gClear").onclick = () => sendGuest({title: "", name: "", position: "", index: -1});
 $("gReload").onclick = loadGuests;
 $("gStyle").onchange = async e => {
-  try { state = await api("/api/state", {settings: {guest_style: e.target.value}}); msg("Guest pill style: " + e.target.selectedOptions[0].text); }
+  try { state = await api("/api/state", {settings: {guest_style: e.target.value}}); msg("Pill style: " + e.target.selectedOptions[0].text); }
   catch (err) { msg(err.message, true); }
 };
 $("gSearch").oninput = renderGuests;

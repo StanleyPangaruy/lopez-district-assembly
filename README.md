@@ -74,7 +74,7 @@ Untick **Shutdown source when not visible** and **Refresh browser when scene bec
 | Assembly BG 4 | `http://127.0.0.1:8765/overlay.html?scene=4&layer=bg` |
 
 #### 🎬 Camera Only
-*Full-screen camera with a floating glass pill at the bottom centre reading **DISTRICT &lt;NAME&gt; ASSEMBLY** for whoever is on air, or the name you type under **Camera only overlay** in the control panel. No header, no barangay or presenter names.*
+*Full-screen camera with a floating glass pill at the bottom centre reading **&lt;NAME&gt; DISTRICT ASSEMBLY** (e.g. MAGNOLIA DISTRICT ASSEMBLY) for whoever is on air, or the name you type under **Camera only overlay** in the control panel. No header, no barangay or presenter names. **Pill style** in the same box switches both this pill and the Guest pill between plain glass and **Coastal wave** (sea-blue glass with rolling waves, made for District Magnolia).*
 
 | Source | Setting |
 |---|---|
@@ -83,7 +83,7 @@ Untick **Shutdown source when not visible** and **Refresh browser when scene bec
 | Assembly BG 5 *(optional)* | `http://127.0.0.1:8765/overlay.html?scene=5&layer=bg` (plain dark fill, only shows if the camera drops out) |
 
 #### 🎬 Guest
-*Same full-screen camera and glass pill, showing the guest's title + name over their position. The district logo follows the same district as the Camera Only pill. **Pill style** in the Guests box switches between the plain glass pill and **Coastal wave** (sea-blue glass with rolling waves, made for District Magnolia). Pick the guest under **Guests** in the control panel; **Hide guest** hides the pill.*
+*Same full-screen camera and glass pill, showing the guest's title + name over their position. The district logo follows the same district as the Camera Only pill. Pick the guest under **Guests** in the control panel; **Hide guest** hides the pill.*
 
 | Source | Setting |
 |---|---|
