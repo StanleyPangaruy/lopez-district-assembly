@@ -125,6 +125,18 @@ body>*{position:absolute}
 .g-name span{font-weight:500;margin-right:12px;color:rgba(255,255,255,.85)}
 .g-pos{font-weight:500;font-size:22px;line-height:1.3;letter-spacing:1px;color:rgba(255,255,255,.88)}
 .glass-row.empty{opacity:0}
+/* guest pill "wave" style (coastal districts, e.g. Magnolia): sea-blue glass with two rolling waves along the bottom */
+.g-wave{display:none}
+.glass.wave{position:relative;overflow:hidden;padding-bottom:24px;border-color:rgba(190,240,250,.55);
+  background:linear-gradient(180deg,rgba(255,255,255,.26) 0%,rgba(255,255,255,.08) 50%,rgba(255,255,255,.03) 100%),rgba(11,57,84,.52)}
+.glass.wave>*:not(.g-wave){position:relative;z-index:1}
+.glass.wave .g-wave{display:block;position:absolute;left:0;right:0;bottom:0;pointer-events:none;background-repeat:repeat-x}
+.glass.wave .g-wave.back{height:22px;background-size:180px 22px;animation:wave-l 9s linear infinite;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='16' viewBox='0 0 120 16' preserveAspectRatio='none'%3E%3Cpath d='M0 8 Q30 0 60 8 T120 8 V16 H0Z' fill='%230f8b8d' fill-opacity='.55'/%3E%3C/svg%3E")}
+.glass.wave .g-wave.front{height:14px;background-size:120px 14px;animation:wave-r 5s linear infinite;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='16' viewBox='0 0 120 16' preserveAspectRatio='none'%3E%3Cpath d='M0 8 Q30 0 60 8 T120 8 V16 H0Z' fill='%235ad1e0' fill-opacity='.9'/%3E%3C/svg%3E")}
+@keyframes wave-r{to{background-position-x:120px}}
+@keyframes wave-l{to{background-position-x:-180px}}
 
 /* ---------- title card ---------- */
 .photo{left:0;top:0;width:1920px;height:1080px;background:url("assets/lopez_quezon.jpg") 60% 45%/cover no-repeat;
@@ -227,7 +239,7 @@ function build() {
     const seals = `<div class="g-seals"><img src="logos/province_seal.png" alt="" onerror="this.remove()"><img src="logos/municipal_seal.png" alt="" onerror="this.remove()"><img class="g-dlogo" id="g-dlogo" alt=""></div><span class="g-dot"></span>`;
     const body = SCENE === "5" ? `<span class="g-text" id="g-text"></span>`
       : `<div class="g-guest"><div class="g-name fit" id="g-name"></div><div class="g-pos fit" id="g-pos"></div></div>`;
-    h = LAYER === "bg" ? `<div class="cam5"></div>` : `<div class="glass-row swap" id="g-row"><div class="glass${SCENE === "6" ? " two" : ""}">${seals}${body}</div></div>`;
+    h = LAYER === "bg" ? `<div class="cam5"></div>` : `<div class="glass-row swap" id="g-row"><div class="glass${SCENE === "6" ? " two" : ""}" id="glass">${seals}${body}${SCENE === "6" ? `<i class="g-wave back"></i><i class="g-wave front"></i>` : ""}</div></div>`;
     document.body.innerHTML = h;
     return;
   }
@@ -356,6 +368,8 @@ function labels(sp) {
 function applySettings(st) {
   const s = st.settings;
   T("h1", s.header1); T("h2", s.header2); setEvent(st); setPill(st);
+  // Guest pill style, chosen in the control panel: "glass" (default) or "wave".
+  if (SCENE === "6" && $("glass")) $("glass").classList.toggle("wave", s.guest_style === "wave");
   setLogo("seal1", "logos/province_seal.png", "PROVINCE\nSEAL");
   setLogo("seal2", "logos/municipal_seal.png", "MUNICIPAL\nSEAL");
 }
