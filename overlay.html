@@ -129,7 +129,21 @@ body>*{position:absolute}
 .g-wave{display:none}
 .glass.wave{position:relative;overflow:hidden;padding-bottom:24px;border-color:rgba(190,240,250,.55);
   background:linear-gradient(180deg,rgba(255,255,255,.26) 0%,rgba(255,255,255,.08) 50%,rgba(255,255,255,.03) 100%),rgba(11,57,84,.52)}
-.glass.wave>*:not(.g-wave){position:relative;z-index:1}
+.glass.wave>*:not(.g-wave):not(.g-boat){position:relative;z-index:1}
+/* fisherman sailing a bangka across the wave, from left to right, behind the text */
+.g-boat{display:none}
+.glass.wave .g-boat{display:block;position:absolute;bottom:-4px;left:-100px;width:90px;height:75px;pointer-events:none;
+  animation:sail 30s linear infinite}
+.g-boat svg{display:block;width:100%;height:100%;overflow:visible}
+.g-boat .hull{transform-box:view-box;transform-origin:60px 80px;animation:boat-bob 3.4s ease-in-out infinite}
+.g-boat .sail{transform-box:view-box;transform-origin:60px 60px;animation:sail-flutter 2.6s ease-in-out infinite}
+.g-boat .paddle{transform-box:view-box;transform-origin:22px 52px;animation:paddle 1.8s ease-in-out infinite}
+.g-boat .wake{animation:wake 1.2s ease-in-out infinite}
+@keyframes sail{from{left:-100px}to{left:calc(100% + 10px)}}
+@keyframes boat-bob{0%,100%{transform:translateY(0) rotate(-2.5deg)}50%{transform:translateY(2.5px) rotate(2.5deg)}}
+@keyframes sail-flutter{50%{transform:scaleX(.93) skewY(-2deg)}}
+@keyframes paddle{0%,100%{transform:rotate(-14deg)}50%{transform:rotate(16deg)}}
+@keyframes wake{0%,100%{opacity:.85;transform:translateX(0)}50%{opacity:.35;transform:translateX(-4px)}}
 .glass.wave:not(.two){height:106px;padding-bottom:18px}
 .glass.wave .g-wave{display:block;position:absolute;left:0;right:0;bottom:0;pointer-events:none;background-repeat:repeat-x}
 .glass.wave .g-wave.back{height:22px;background-size:180px 22px;animation:wave-l 9s linear infinite;
@@ -246,7 +260,7 @@ function build() {
     const seals = `<div class="g-seals"><img src="logos/province_seal.png" alt="" onerror="this.remove()"><img src="logos/municipal_seal.png" alt="" onerror="this.remove()"><img class="g-dlogo" id="g-dlogo" alt=""></div><span class="g-dot"></span>`;
     const body = SCENE === "5" ? `<span class="g-text" id="g-text"></span>`
       : `<div class="g-guest"><div class="g-name fit" id="g-name"></div><div class="g-pos fit" id="g-pos"></div></div>`;
-    h = LAYER === "bg" ? `<div class="cam5"></div>` : `<div class="glass-row swap" id="g-row"><div class="g-wrap"><div class="glass${SCENE === "6" ? " two" : ""}" id="glass">${seals}${body}<i class="g-wave back"></i><i class="g-wave front"></i></div><div class="g-fish" id="g-fish"></div></div></div>`;
+    h = LAYER === "bg" ? `<div class="cam5"></div>` : `<div class="glass-row swap" id="g-row"><div class="g-wrap"><div class="glass${SCENE === "6" ? " two" : ""}" id="glass">${seals}${body}<i class="g-wave back"></i><div class="g-boat">${BOAT_SVG}</div><i class="g-wave front"></i></div><div class="g-fish" id="g-fish"></div></div></div>`;
     document.body.innerHTML = h;
     return;
   }
@@ -450,6 +464,27 @@ async function poll() {
 }
 
 /* ---------------- jumping fish (wave style) ---------------- */
+// Fisherman sailing a bangka (outrigger boat) to the right: striped sail, salakot hat, paddle at the stern.
+// Waterline is y=80.
+const BOAT_SVG = `<svg viewBox="0 0 120 100">
+  <path class="wake" d="M6 80 L-16 78 M4 83 L-20 85 M2 78.5 L-8 75" stroke="#fff" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+  <g class="hull">
+  <path d="M34 70 L30 79 M88 70 L92 79" stroke="#5b3a22" stroke-width="2.2" stroke-linecap="round"/>
+  <rect x="14" y="77" width="92" height="4.5" rx="2.2" fill="#d6b468" stroke="#8a6a2e" stroke-width=".8"/>
+  <path d="M58 66 L58 8" stroke="#4a2c18" stroke-width="2.4" stroke-linecap="round"/>
+  <g class="sail"><path d="M60 10 L60 60 L98 60Z" fill="#f7f3ea" stroke="#8a6a2e" stroke-width=".8" stroke-linejoin="round"/>
+    <path d="M60 26 L72.2 26 L78.2 34 L60 34Z" fill="#e8262c"/><path d="M60 44 L85.8 44 L91.9 52 L60 52Z" fill="#f2c14e"/></g>
+  <path d="M8 66 L112 66 Q106 80 88 82 L32 82 Q14 80 8 66Z" fill="#7a4a2a" stroke="#4a2c18" stroke-width="1"/>
+  <path d="M112 66 L119 57 M8 66 L3 58" stroke="#7a4a2a" stroke-width="4" stroke-linecap="round"/>
+  <path d="M12 69.5 L108 69.5" stroke="#f2e3c6" stroke-width="2.4"/>
+  <path d="M24 66 L24 60 Q32 57 40 60 L40 66Z" fill="#23395b"/>
+  <path d="M27 60 Q26 47 32 45 Q38 47 37 60Z" fill="#2f6fb0"/>
+  <circle cx="32" cy="40" r="5" fill="#b9784a"/>
+  <path d="M19 39 L32 28 L45 39 Q32 42.5 19 39Z" fill="#e2bf6e" stroke="#8a6a2e" stroke-width="1"/>
+  <g class="paddle"><path d="M30 50 L22 54" stroke="#b9784a" stroke-width="3.2" stroke-linecap="round"/>
+    <path d="M24 46 L14 88" stroke="#5b3a22" stroke-width="2.2" stroke-linecap="round"/>
+    <ellipse cx="13.5" cy="89" rx="3" ry="6" fill="#5b3a22" transform="rotate(13 13.5 89)"/></g>
+</g></svg>`;
 const FISH_SVG = `<svg viewBox="0 0 40 20" width="60" height="30"><path d="M38 10 Q28 1 14 6 L2 1 L6 10 L2 19 L14 14 Q28 19 38 10Z" fill="#7fe3ee" stroke="#0b3954" stroke-width="1.3" stroke-linejoin="round"/>
   <path d="M38 10 Q28 15 14 13" stroke="#0f8b8d" stroke-opacity=".5" fill="none" stroke-width="1.5"/>
   <path d="M27 6 Q22 10 27 14" stroke="#fff" stroke-opacity=".7" fill="none" stroke-width="1.2"/><circle cx="32" cy="8.5" r="1.5" fill="#0b3954"/></svg>`;

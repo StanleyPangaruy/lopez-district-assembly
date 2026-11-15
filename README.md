@@ -74,7 +74,7 @@ Untick **Shutdown source when not visible** and **Refresh browser when scene bec
 | Assembly BG 4 | `http://127.0.0.1:8765/overlay.html?scene=4&layer=bg` |
 
 #### 🎬 Camera Only
-*Full-screen camera with a floating glass pill at the bottom centre reading **&lt;NAME&gt; DISTRICT ASSEMBLY** (e.g. MAGNOLIA DISTRICT ASSEMBLY) for whoever is on air, or the name you type under **Camera only overlay** in the control panel. No header, no barangay or presenter names. **Pill style** in the same box switches both this pill and the Guest pill between plain glass and **Coastal wave** (sea-blue glass with rolling waves and the odd fish leaping out of the water, made for District Magnolia).*
+*Full-screen camera with a floating glass pill at the bottom centre reading **&lt;NAME&gt; DISTRICT ASSEMBLY** (e.g. MAGNOLIA DISTRICT ASSEMBLY) for whoever is on air, or the name you type under **Camera only overlay** in the control panel. No header, no barangay or presenter names. **Pill style** in the same box switches both this pill and the Guest pill between plain glass and **Coastal wave** (sea-blue glass with rolling waves, a fisherman sailing his bangka across and the odd fish leaping out of the water, made for District Magnolia).*
 
 | Source | Setting |
 |---|---|
