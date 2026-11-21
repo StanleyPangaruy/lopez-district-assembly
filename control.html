@@ -137,6 +137,8 @@ details[open] summary{margin-bottom:10px}
       <select id="gStyle" class="grow">
         <option value="glass">Glass (default)</option>
         <option value="wave">Coastal wave (e.g. District Magnolia)</option>
+        <option value="tag">Red name tag (e.g. District Daisy)</option>
+        <option value="coco">Coconut farm (climber + falling coconut)</option>
       </select>
     </div>
   </section>
@@ -414,7 +416,7 @@ function showGuest() {
 }
 function renderGuestNow() {
   const g = (state && state.guest) || {};
-  if (document.activeElement !== $("gStyle")) $("gStyle").value = ((state && state.settings) || {}).guest_style === "wave" ? "wave" : "glass";
+  if (document.activeElement !== $("gStyle")) $("gStyle").value = ["wave", "tag", "coco"].includes(((state && state.settings) || {}).guest_style) ? state.settings.guest_style : "glass";
   $("gNow").textContent = g.name ? "On air: " + [g.title, g.name].filter(Boolean).join(" ") + (g.position ? " — " + g.position : "") : "No guest on air (pill hidden).";
 }
 $("gTake").onclick = showGuest;
