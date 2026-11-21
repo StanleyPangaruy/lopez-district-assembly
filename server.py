@@ -8,21 +8,32 @@ Run:  double-click start.bat   (or:  python server.py)
 Then: control panel  -> http://127.0.0.1:8765/
       OBS overlays   -> http://127.0.0.1:8765/overlay.html?scene=2&layer=fg  (see README.md)
 
-Only Python's standard library is used. Nothing is reachable from other
-computers: the server listens on 127.0.0.1 only.
+Only Python's standard library is used. By default nothing is reachable from
+other computers: the server listens on 127.0.0.1 only.
+
+Network mode (start_lan.bat, or DA_LAN=1) also listens on the local network so
+another PC (e.g. a second OBS machine) can show the Camera Only and Guest
+overlays (scenes 5 and 6). Other computers get read-only access to just those
+overlays, the live state they poll, and the fonts/logos/assets they draw with.
+The control panel, the roster and every change stay on this computer.
 """
 
 import csv
 import json
 import os
+import posixpath
+import socket
 import sys
 import threading
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, unquote, urlparse
 
 HERE = Path(__file__).resolve().parent
 PORT = int(os.environ.get("DA_PORT", "8765"))
+LAN = os.environ.get("DA_LAN", "").strip() not in ("", "0")
+LAN_SCENES = {"5", "6"}                                  # overlays other computers may open
+LAN_DIRS = ("/fonts/", "/logos/", "/assets/")            # files those overlays load
 ROSTER = HERE / "roster.csv"
 STATE_FILE = HERE / "state.json"
 FIELDS = ["order", "district", "kind", "name", "person", "role", "logo"]
@@ -117,6 +128,25 @@ def write_roster(rows):
     os.replace(tmp, ROSTER)
 
 
+# --------------------------------------------------------------------------- network
+def lan_urls():
+    """This PC's addresses on the local network, as base URLs."""
+    try:
+        ips = socket.gethostbyname_ex(socket.gethostname())[2]
+    except OSError:
+        ips = []
+    return [f"http://{ip}:{PORT}" for ip in ips if not ip.startswith("127.")]
+
+
+def lan_allowed(raw_path):
+    """What another computer may GET: the scene 5/6 overlays, the state they poll, and their fonts/images."""
+    u = urlparse(raw_path)
+    path = posixpath.normpath(unquote(u.path))           # so /logos/../roster.csv can't slip through
+    if path == "/overlay.html":
+        return parse_qs(u.query).get("scene", [""])[0] in LAN_SCENES
+    return path == "/api/state" or path.startswith(LAN_DIRS)
+
+
 # --------------------------------------------------------------------------- http
 class Handler(SimpleHTTPRequestHandler):
     extensions_map = {**SimpleHTTPRequestHandler.extensions_map,
@@ -148,8 +178,18 @@ class Handler(SimpleHTTPRequestHandler):
         n = int(self.headers.get("Content-Length") or 0)
         return json.loads(self.rfile.read(n) or b"{}")
 
+    def _is_local(self):
+        return self.client_address[0] in ("127.0.0.1", "::1", "::ffff:127.0.0.1")
+
+    def _forbidden(self):
+        return self._json({"error": "only the Camera Only and Guest overlays are shared on the network"}, 403)
+
     def do_GET(self):
+        if not self._is_local() and not lan_allowed(self.path):
+            return self._forbidden()
         path = urlparse(self.path).path
+        if path == "/api/lan":
+            return self._json({"enabled": LAN, "urls": lan_urls() if LAN else []})
         if path == "/":
             self.path = "/control.html"
         elif path == "/api/state":
@@ -169,6 +209,8 @@ class Handler(SimpleHTTPRequestHandler):
 
     def do_POST(self):
         global state
+        if not self._is_local():                         # changes only from this computer
+            return self._forbidden()
         path = urlparse(self.path).path
         try:
             data = self._body()
@@ -207,7 +249,7 @@ class Handler(SimpleHTTPRequestHandler):
 
 def main():
     try:
-        httpd = ThreadingHTTPServer(("127.0.0.1", PORT), Handler)
+        httpd = ThreadingHTTPServer(("0.0.0.0" if LAN else "127.0.0.1", PORT), Handler)
     except OSError:
         print(f"\nPort {PORT} is already in use. Is the server already running in another window?")
         input("Press Enter to close...")
@@ -219,6 +261,12 @@ def main():
     print(f"  Control panel : {base}/")
     print(f"  Overlay links : see 'OBS links' in the control panel")
     print(f"  Folder        : {HERE}")
+    if LAN:
+        print("\n  NETWORK MODE: other computers can open the Camera Only and Guest overlays:")
+        for u in lan_urls() or [f"http://<this PC's IP>:{PORT}"]:
+            print(f"    {u}/overlay.html?scene=5&layer=fg   (Camera Only)")
+            print(f"    {u}/overlay.html?scene=6&layer=fg   (Guest)")
+        print("  If Windows Firewall asks, allow Python on Private networks.")
     print("\n  Keep this window open while recording. Ctrl+C to stop.\n")
     try:
         httpd.serve_forever()

@@ -13,6 +13,7 @@ Live, editable broadcast graphics for recording the **District Assembly** presen
 | File / folder | What it does |
 |---|---|
 | `start.bat` | **Double-click to start.** Keep its window open while recording. |
+| `start_lan.bat` | Same, but also shares the Camera Only and Guest overlays with other computers on your network. |
 | `server.py` | Tiny local server (Python standard library only, nothing to install). |
 | `control.html` | Control panel: pick who's on air, fix typos, change the event title. |
 | `overlay.html` | The graphics OBS shows as Browser Sources. |
@@ -91,6 +92,15 @@ Untick **Shutdown source when not visible** and **Refresh browser when scene bec
 | Camera | Full screen: right-click → **Transform → Fit to screen** |
 
 > 💡 **Tip:** add Camera and Slides once, then **right-click → Copy** and **Paste (Reference)** in the other scenes.
+
+### 🌐 Camera overlays on another computer *(optional)*
+To show the **Camera Only** and **Guest** overlays in OBS on a second PC on the same network (Wi-Fi or LAN):
+
+1. On the main PC, double-click **`start_lan.bat`** instead of `start.bat`. Its window lists the network links, and the control panel shows them under **Preview & OBS links**.
+2. If Windows Firewall asks, tick **Private networks** and click **Allow**.
+3. On the other PC, add a Browser Source with that link, e.g. `http://192.168.1.20:8765/overlay.html?scene=6&layer=fg`.
+
+Other computers can only *view* scenes 5 and 6. The control panel, the other scenes, the roster and every change stay on the main PC. Plain `start.bat` keeps everything on this computer only.
 
 ---
 

@@ -334,14 +334,24 @@ function buildLinks() {
     ["Presentation only — BG", "?scene=4&layer=bg"], ["Presentation only — FG", "?scene=4&layer=fg"],
     ["Camera only — BG", "?scene=5&layer=bg"], ["Camera only — FG", "?scene=5&layer=fg"],
     ["Guest — BG", "?scene=6&layer=bg"], ["Guest — FG", "?scene=6&layer=fg"]];
-  for (const [name, q] of L) {
+  const addLink = (name, url) => {
     const d = document.createElement("div"); d.className = "link";
     const s = document.createElement("span"); s.textContent = name;
-    const i = document.createElement("input"); i.readOnly = true; i.value = BASE + q; i.onclick = () => i.select();
+    const i = document.createElement("input"); i.readOnly = true; i.value = url; i.onclick = () => i.select();
     const b = document.createElement("button"); b.textContent = "Copy";
     b.onclick = async () => { i.select(); try { await navigator.clipboard.writeText(i.value); } catch (e) { document.execCommand("copy"); } b.textContent = "Copied"; setTimeout(() => b.textContent = "Copy", 1200); };
     d.append(s, i, b); $("links").appendChild(d);
-  }
+  };
+  for (const [name, q] of L) addLink(name, BASE + q);
+  // network mode (start_lan.bat): links another computer on this network can use for the camera overlays
+  api("/api/lan").then(d => {
+    if (!d.enabled || !d.urls.length) return;
+    const h = document.createElement("div"); h.className = "hint";
+    h.textContent = "From another computer on this network (Camera Only and Guest only):";
+    $("links").appendChild(h);
+    for (const u of d.urls.slice(0, 2))
+      for (const [name, q] of L.filter(([, q]) => /scene=[56]&/.test(q))) addLink(name + (d.urls.length > 1 ? " · " + u.split("//")[1] : ""), u + "/overlay.html" + q);
+  }).catch(() => {});
 }
 
 /* ---------- wire up ---------- */
